@@ -35,7 +35,7 @@ Always state why the selected destination is appropriate.
 
 ## Quality Bar
 - Preserve factual meaning from source threads.
-- Keep language concise and shareable.
+- Keep language concise, plain, and shareable for student planning contexts.
 - Include concrete next actions when useful.
 - Avoid overengineering structure or adding unnecessary process overhead.
 

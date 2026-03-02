@@ -233,19 +233,48 @@ List any policy or workflow conflicts and suggest the minimal fix.
 ```
 
 ## Automation Contract
-Automation name:
-- `Daily Repo Context Curator`
+This repository uses two automation lanes to keep context fresh while preserving correctness.
 
-Schedule:
-- `FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR,SA,SU;BYHOUR=18;BYMINUTE=0`
+Lane 1: `Hourly Context Sentinel`
+- Schedule: `FREQ=HOURLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR,SA,SU`
+- Purpose: detect material changes and conflicts quickly.
+- Write policy: no write by default; write only when high-confidence material deltas exist.
+- Notification policy: inbox on conflict/error/material change; silent no-op otherwise.
+
+Lane 2: `Daily Repo Context Curator`
+- Schedule: `FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR,SA,SU;BYHOUR=18;BYMINUTE=0`
 - Time zone: `America/New_York`
+- Purpose: full synthesis refresh and changelog discipline.
+- Write policy: update only `Embedded Context Snapshot` and `Embedded Context Changelog`.
+- Output policy: always inbox summary with `updated` or `no material change`.
 
 Working directory:
 - `/Users/andysalvo_1/Documents/GitHub/ai_hub_brain`
 
-Required behavior:
+### Context Integrity Rules
+- If conflict or uncertainty exists, automation MUST NOT write context sections.
+- Context updates MUST prioritize alignment-first natural-language planning, not execution logs.
+- Context language SHOULD stay plain, concise, and planning-friendly.
+- Automation MUST only edit inside marker-bounded context zones.
+- Every high-impact context claim MUST include a source pointer using this format:
+  - `[src: <path> | key: "<short quote key>"]`
+
+Conflict examples requiring fail-safe no-write:
+- Contradictory decisions in different artifacts.
+- Unclear status of action items that materially changes next steps.
+- Ambiguous ownership or authority claims.
+
+Conflict handling behavior:
+1. Do not mutate snapshot or changelog.
+2. Open inbox report with:
+   - Conflict summary
+   - Conflicting source pointers
+   - Exact human decision needed
+3. Resume automated writes only after conflict resolution appears in source docs.
+
+Required behavior when no conflict exists:
 1. Run `repo-context-curator` logic.
-2. Update only these sections in this file when material changes exist:
+2. Update only these sections when material changes exist:
    - `Embedded Context Snapshot`
    - `Embedded Context Changelog`
 3. If no material change:
@@ -264,48 +293,52 @@ Forbidden automation behavior:
 - No broad rewrite of unrelated sections.
 
 ## Embedded Context Snapshot
+<!-- CONTEXT_SNAPSHOT_START -->
 Last Updated: 2026-03-02
 
 Goal:
 - Build a student-led AI hub at Penn State with collaboration infrastructure that works for mixed agent/human workflows.
 
 Current State:
-- Public repo governance docs are in place.
-- Single-source agent alignment is consolidated in `FOR_AGENTS.md`.
-- Skills exist for context curation and artifact promotion.
-- Project scope is still evolving.
+- Public repo governance docs are in place. [src: README.md | key: "Start Here"]
+- Single-source agent alignment is consolidated in `FOR_AGENTS.md`. [src: AGENTS.md | key: "canonical guidance lives in `FOR_AGENTS.md`"]
+- Skills exist for context curation and artifact promotion. [src: skills/repo-context-curator/SKILL.md | key: "Update only `FOR_AGENTS.md` sections"]
+- Project scope is still evolving. [src: README.md | key: "Project scope is still being defined"]
 
 Active Threads:
-- Defining lightweight but strong collaboration systems for students.
-- Ensuring free-plan usability for upload-first AI workflows.
-- Maintaining context continuity with automation.
+- Defining lightweight but strong collaboration systems for students. [src: FOR_AGENTS.md | key: "Student Workflow Model"]
+- Ensuring free-plan usability for upload-first AI workflows. [src: FOR_AGENTS.md | key: "Free-Plan Upload-Only Path"]
+- Maintaining context continuity with automation. [src: FOR_AGENTS.md | key: "Automation Contract"]
 
 Decisions:
-- `FOR_AGENTS.md` is the canonical source of truth for agent alignment.
-- Student-led wording is required; no implied official sponsorship.
-- Promotion lanes are fixed to `docs/ideas`, `docs/specs`, `docs/decisions`.
+- `FOR_AGENTS.md` is the canonical source of truth for agent alignment. [src: CONTRIBUTING.md | key: "`FOR_AGENTS.md` is authoritative"]
+- Student-led wording is required; no implied official sponsorship. [src: FOR_AGENTS.md | key: "Canonical Fact"]
+- Promotion lanes are fixed to `docs/ideas`, `docs/specs`, `docs/decisions`. [src: FOR_AGENTS.md | key: "Artifact Promotion Rules"]
 
 Open Questions:
-- Final scope and concrete deliverables of the student AI hub.
-- Growth model for contributor governance and review rigor.
+- Final scope and concrete deliverables of the student AI hub. [src: README.md | key: "Project scope is still being defined"]
+- Growth model for contributor governance and review rigor. [src: FOR_AGENTS.md | key: "Open Questions"]
 
 Next Actions:
-1. Start generating real session threads.
-2. Promote first durable spec in `docs/specs/`.
-3. Activate automation with this single-file contract.
-4. Apply GitHub main-branch protection against force-push/deletion.
+1. Start generating real session threads. [src: threads/README.md | key: "Use one file per session"]
+2. Promote first durable spec in `docs/specs/`. [src: docs/specs/README.md | key: "implementation-ready specifications"]
+3. Activate automation with this single-file contract. [src: FOR_AGENTS.md | key: "Automation Contract"]
+4. Apply GitHub main-branch protection against force-push/deletion. [src: FOR_AGENTS.md | key: "Main branch safety baseline"]
 
 Contribution Entry:
 - Read this file.
 - Use a session thread.
 - Promote durable outputs to docs lanes.
 - Keep changes concise and auditable.
+<!-- CONTEXT_SNAPSHOT_END -->
 
 ## Embedded Context Changelog
-2026-03-02 (Migration):
-- Replaced split context model (`AGENT_START_HERE.md` and `docs/context/*`) with single-source `FOR_AGENTS.md`.
-- Moved canonical mission, workflow, context snapshot, and changelog into this file.
-- Updated wrapper docs and skills to point to this source-of-truth model.
+<!-- CONTEXT_CHANGELOG_START -->
+2026-03-02 13:30 ET | migration
+- What changed: Consolidated context governance into `FOR_AGENTS.md` with marker-bounded snapshot/changelog sections.
+- Why changed: Reduce drift and support single-file upload alignment for student planning workflows.
+- Top source pointers: [src: AGENTS.md | key: "canonical guidance lives in `FOR_AGENTS.md`"], [src: CONTRIBUTING.md | key: "`FOR_AGENTS.md` is authoritative"]
+<!-- CONTEXT_CHANGELOG_END -->
 
 ## Sync Rule
 Any PR that changes workflow, policy, repository map, or agent behavior must update `FOR_AGENTS.md` in the same PR.
