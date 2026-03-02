@@ -89,6 +89,19 @@ When repository writes are not available:
 - Ask for one missing file at a time.
 - Keep output format copy-paste friendly.
 
+## Disconnected Collaboration Mode
+This workflow is first-class, not fallback.
+
+Mode 1: `Maintainer-integrated mode`
+- Maintainers can operate directly with repo-connected tooling and automations.
+- Automations keep embedded context sections current.
+
+Mode 2: `Collaborator-disconnected mode`
+- Collaborators run ChatGPT sessions without direct write access to GitHub.
+- End-of-session output is a paste-ready session file.
+- The collaborator uploads that file to GitHub.
+- Automations ingest uploaded session files and update embedded context sections.
+
 ## Free-Plan Upload-Only Path
 This repository must work for students using free plans of popular AI tools.
 
@@ -111,6 +124,48 @@ Zip/folder protocol:
 - Read this file first, then only load relevant files for the requested task.
 - Avoid broad file loading if one or two files are sufficient.
 
+## External Handoff File Contract
+Use this contract for collaborator sessions completed outside GitHub write access.
+
+Filename convention:
+- `threads/YYYY-MM-DD-topic.external.md`
+
+Required metadata block at top of file (YAML frontmatter):
+- `contributor`
+- `model`
+- `session_datetime_et`
+- `objective`
+- `confidence` (`low`, `medium`, or `high`)
+- `repo_context_version` (from `FOR_AGENTS.md` `Last Updated` value)
+
+Required sections in body:
+- `## What Was Done`
+- `## Novel Insights`
+- `## Decisions Proposed`
+- `## Open Questions`
+- `## Proposed Next Actions`
+- `## Promotion Suggestions`
+- `## Paste-Ready Blocks`
+
+Promotion suggestion values:
+- `docs/ideas`
+- `docs/specs`
+- `docs/decisions`
+
+Long files are acceptable when insight is genuinely novel, but structure must remain parseable.
+
+## ChatGPT End-Of-Session Output Contract
+When operating in collaborator-disconnected mode, ChatGPT MUST output one complete `.external.md` file body ready for paste/upload.
+
+Output requirements:
+- Must include required metadata keys.
+- Must include every required section from the external handoff contract.
+- Must clearly distinguish:
+  - Work completed in chat
+  - Proposed repository updates
+  - Unresolved decisions requiring human follow-up
+- Must not claim that git/PR/push actions were executed unless explicitly confirmed by a maintainer.
+
 ## Agent Behavior Rules
 Operating rules for any agent collaborating in this repo:
 - Start from this file.
@@ -132,6 +187,7 @@ Default git posture:
 - Keep changes scoped to session objective.
 - Use clear commit messages.
 - Push and PR actions should be explicit, not implied.
+- In disconnected collaborator mode, produce `.external.md` session files instead of simulating direct git actions.
 
 Automation-specific branch rule:
 - Automation commits go to `codex/automation-context`.
@@ -237,9 +293,11 @@ This repository uses two automation lanes to keep context fresh while preserving
 
 Lane 1: `Hourly Context Sentinel`
 - Schedule: `FREQ=HOURLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR,SA,SU`
-- Purpose: detect material changes and conflicts quickly.
+- Purpose: detect material changes and conflicts quickly, including new/changed `threads/*.external.md` files.
 - Write policy: no write by default; write only when high-confidence material deltas exist.
 - Notification policy: inbox on conflict/error/material change; silent no-op otherwise.
+- Validation policy: fail-safe no-write when external session metadata/required sections are missing.
+- Ignore policy: do not ingest `threads/TEMPLATE.external.md` as session evidence.
 
 Lane 2: `Daily Repo Context Curator`
 - Schedule: `FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR,SA,SU;BYHOUR=18;BYMINUTE=0`
@@ -247,12 +305,14 @@ Lane 2: `Daily Repo Context Curator`
 - Purpose: full synthesis refresh and changelog discipline.
 - Write policy: update only `Embedded Context Snapshot` and `Embedded Context Changelog`.
 - Output policy: always inbox summary with `updated` or `no material change`.
+- Ingestion policy: synthesize validated external session files into bounded context sections with compact source pointers.
 
 Working directory:
 - `/Users/andysalvo_1/Documents/GitHub/ai_hub_brain`
 
 ### Context Integrity Rules
 - If conflict or uncertainty exists, automation MUST NOT write context sections.
+- If required external-session metadata is missing, automation MUST NOT write context sections.
 - Context updates MUST prioritize alignment-first natural-language planning, not execution logs.
 - Context language SHOULD stay plain, concise, and planning-friendly.
 - Automation MUST only edit inside marker-bounded context zones.
@@ -304,6 +364,8 @@ Current State:
 - Single-source agent alignment is consolidated in `FOR_AGENTS.md`. [src: AGENTS.md | key: "canonical guidance lives in `FOR_AGENTS.md`"]
 - Skills exist for context curation and artifact promotion. [src: skills/repo-context-curator/SKILL.md | key: "Update only `FOR_AGENTS.md` sections"]
 - Project scope is still evolving. [src: README.md | key: "Project scope is still being defined"]
+- Disconnected collaborator handoff is standardized through `.external.md` session files. [src: FOR_AGENTS.md | key: "External Handoff File Contract"]
+- Automation is expected to ingest uploaded external sessions for context updates. [src: FOR_AGENTS.md | key: "Lane 1: `Hourly Context Sentinel`"]
 
 Active Threads:
 - Defining lightweight but strong collaboration systems for students. [src: FOR_AGENTS.md | key: "Student Workflow Model"]
@@ -322,8 +384,9 @@ Open Questions:
 Next Actions:
 1. Start generating real session threads. [src: threads/README.md | key: "Use one file per session"]
 2. Promote first durable spec in `docs/specs/`. [src: docs/specs/README.md | key: "implementation-ready specifications"]
-3. Activate automation with this single-file contract. [src: FOR_AGENTS.md | key: "Automation Contract"]
-4. Apply GitHub main-branch protection against force-push/deletion. [src: FOR_AGENTS.md | key: "Main branch safety baseline"]
+3. Start collecting collaborator uploads using `threads/*.external.md`. [src: FOR_AGENTS.md | key: "Filename convention"]
+4. Keep automation aligned to external-session validation and ingestion rules. [src: FOR_AGENTS.md | key: "Validation policy"]
+5. Apply GitHub main-branch protection against force-push/deletion. [src: FOR_AGENTS.md | key: "Main branch safety baseline"]
 
 Contribution Entry:
 - Read this file.
@@ -334,6 +397,11 @@ Contribution Entry:
 
 ## Embedded Context Changelog
 <!-- CONTEXT_CHANGELOG_START -->
+2026-03-02 14:20 ET | disconnected-handoff-hardening
+- What changed: Added disconnected collaboration mode, external handoff contract, and ChatGPT end-of-session output requirements.
+- Why changed: Most collaborators work without direct GitHub write access and need a reliable paste/upload workflow.
+- Top source pointers: [src: FOR_AGENTS.md | key: "Disconnected Collaboration Mode"], [src: FOR_AGENTS.md | key: "External Handoff File Contract"]
+
 2026-03-02 13:30 ET | migration
 - What changed: Consolidated context governance into `FOR_AGENTS.md` with marker-bounded snapshot/changelog sections.
 - Why changed: Reduce drift and support single-file upload alignment for student planning workflows.

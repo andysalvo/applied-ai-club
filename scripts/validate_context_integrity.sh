@@ -6,6 +6,7 @@ FOR_AGENTS_FILE="${ROOT_DIR}/FOR_AGENTS.md"
 AGENTS_FILE="${ROOT_DIR}/AGENTS.md"
 CONTRIBUTING_FILE="${ROOT_DIR}/CONTRIBUTING.md"
 README_FILE="${ROOT_DIR}/README.md"
+TEMPLATE_EXTERNAL_FILE="${ROOT_DIR}/threads/TEMPLATE.external.md"
 
 fail() {
   echo "ERROR: $*" >&2
@@ -16,7 +17,12 @@ for required_file in "${FOR_AGENTS_FILE}" "${AGENTS_FILE}" "${CONTRIBUTING_FILE}
   [[ -f "${required_file}" ]] || fail "Missing required file: ${required_file}"
 done
 
+[[ -f "${TEMPLATE_EXTERNAL_FILE}" ]] || fail "Missing required external session template: ${TEMPLATE_EXTERNAL_FILE}"
+
 required_sections=(
+  "## Disconnected Collaboration Mode"
+  "## External Handoff File Contract"
+  "## ChatGPT End-Of-Session Output Contract"
   "## Automation Contract"
   "### Context Integrity Rules"
   "## Embedded Context Snapshot"
@@ -26,6 +32,36 @@ required_sections=(
 
 for section in "${required_sections[@]}"; do
   grep -Fxq "${section}" "${FOR_AGENTS_FILE}" || fail "Missing required section in FOR_AGENTS.md: ${section}"
+done
+
+grep -Fq 'threads/YYYY-MM-DD-topic.external.md' "${FOR_AGENTS_FILE}" || fail "FOR_AGENTS.md must define external session filename convention."
+grep -Fq 'This workflow is first-class, not fallback.' "${FOR_AGENTS_FILE}" || fail "FOR_AGENTS.md must state disconnected mode as first-class."
+
+required_contract_metadata=(
+  '`contributor`'
+  '`model`'
+  '`session_datetime_et`'
+  '`objective`'
+  '`confidence`'
+  '`repo_context_version`'
+)
+
+for key in "${required_contract_metadata[@]}"; do
+  grep -Fq "${key}" "${FOR_AGENTS_FILE}" || fail "FOR_AGENTS.md contract is missing required metadata key mention: ${key}"
+done
+
+required_contract_sections=(
+  '`## What Was Done`'
+  '`## Novel Insights`'
+  '`## Decisions Proposed`'
+  '`## Open Questions`'
+  '`## Proposed Next Actions`'
+  '`## Promotion Suggestions`'
+  '`## Paste-Ready Blocks`'
+)
+
+for contract_section in "${required_contract_sections[@]}"; do
+  grep -Fq "${contract_section}" "${FOR_AGENTS_FILE}" || fail "FOR_AGENTS.md contract is missing required section mention: ${contract_section}"
 done
 
 snapshot_start_count="$(grep -c '^<!-- CONTEXT_SNAPSHOT_START -->$' "${FOR_AGENTS_FILE}")"
@@ -94,6 +130,56 @@ grep -Fq "FOR_AGENTS.md" "${AGENTS_FILE}" || fail "AGENTS.md must point to FOR_A
 grep -Fq "FOR_AGENTS.md" "${CONTRIBUTING_FILE}" || fail "CONTRIBUTING.md must point to FOR_AGENTS.md."
 grep -Fq "FOR_AGENTS.md" "${README_FILE}" || fail "README.md must include FOR_AGENTS.md in Start Here guidance."
 
+external_files=()
+while IFS= read -r file_path; do
+  external_files+=("${file_path}")
+done < <(find "${ROOT_DIR}/threads" -maxdepth 1 -type f -name '*.external.md' | sort)
+
+required_external_metadata_keys=(
+  "contributor"
+  "model"
+  "session_datetime_et"
+  "objective"
+  "confidence"
+  "repo_context_version"
+)
+
+required_external_sections=(
+  "## What Was Done"
+  "## Novel Insights"
+  "## Decisions Proposed"
+  "## Open Questions"
+  "## Proposed Next Actions"
+  "## Promotion Suggestions"
+  "## Paste-Ready Blocks"
+)
+
+validate_external_file() {
+  local file_path="$1"
+
+  [[ "$(head -n 1 "${file_path}")" == "---" ]] || fail "External file must begin with YAML frontmatter: ${file_path}"
+  local frontmatter_end_line
+  frontmatter_end_line="$(awk 'NR > 1 && $0 == "---" { print NR; exit }' "${file_path}")"
+  [[ -n "${frontmatter_end_line}" ]] || fail "External file frontmatter must have closing '---': ${file_path}"
+
+  local frontmatter
+  frontmatter="$(sed -n "1,${frontmatter_end_line}p" "${file_path}")"
+
+  for metadata_key in "${required_external_metadata_keys[@]}"; do
+    echo "${frontmatter}" | rg -q "^${metadata_key}:" || fail "Missing metadata key '${metadata_key}' in external file: ${file_path}"
+  done
+
+  echo "${frontmatter}" | rg -q '^confidence:\s*"?((low|medium|high))"?\s*$' || fail "Invalid confidence value in external file: ${file_path}"
+
+  for required_section in "${required_external_sections[@]}"; do
+    grep -Fxq "${required_section}" "${file_path}" || fail "Missing required section '${required_section}' in external file: ${file_path}"
+  done
+}
+
+for external_file in "${external_files[@]}"; do
+  validate_external_file "${external_file}"
+done
+
 strip_mutable_blocks() {
   awk '
     /^<!-- CONTEXT_SNAPSHOT_START -->$/ {print; in_snapshot=1; next}
@@ -108,7 +194,10 @@ strip_mutable_blocks() {
 if git -C "${ROOT_DIR}" rev-parse --verify HEAD >/dev/null 2>&1 && git -C "${ROOT_DIR}" rev-parse --verify HEAD~1 >/dev/null 2>&1; then
   latest_subject="$(git -C "${ROOT_DIR}" log -1 --pretty=%s)"
   if [[ "${latest_subject}" == "chore(context): refresh project context" ]]; then
-    mapfile -t changed_files < <(git -C "${ROOT_DIR}" diff --name-only HEAD~1 HEAD)
+    changed_files=()
+    while IFS= read -r changed_file; do
+      changed_files+=("${changed_file}")
+    done < <(git -C "${ROOT_DIR}" diff --name-only HEAD~1 HEAD)
     [[ "${#changed_files[@]}" -gt 0 ]] || fail "Automation-tagged commit has no file changes."
     for changed_file in "${changed_files[@]}"; do
       [[ "${changed_file}" == "FOR_AGENTS.md" ]] || fail "Automation-tagged commit modified non-context file: ${changed_file}"

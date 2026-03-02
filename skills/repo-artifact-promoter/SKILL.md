@@ -10,6 +10,7 @@ Use this skill on demand to convert thread-level brainstorming into reusable rep
 ## Inputs
 - `FOR_AGENTS.md` (canonical rules and contribution model)
 - `threads/*.md` session files
+- `threads/*.external.md` disconnected collaborator session files
 - Existing files in:
   - `docs/ideas/`
   - `docs/specs/`

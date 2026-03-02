@@ -13,6 +13,7 @@ Use this skill when you need to maintain current repository context while preser
 - `CONTRIBUTING.md`
 - `README.md`
 - `threads/*.md`
+- `threads/*.external.md` (first-class disconnected collaborator inputs), excluding `threads/TEMPLATE.external.md`
 - `docs/ideas/*.md`
 - `docs/specs/*.md`
 - `docs/decisions/*.md`
@@ -29,10 +30,11 @@ Use this skill when you need to maintain current repository context while preser
 ## Workflow
 1. Read source documents and thread/artifact files.
 2. Run deterministic quality gates in order:
-   - `gate_1`: source completeness check
+   - `gate_1`: source completeness check (ignore template files and placeholder examples)
    - `gate_2`: contradiction check
-   - `gate_3`: evidence pointer coverage check
-   - `gate_4`: bounded-edit check
+   - `gate_3`: external metadata and structure check
+   - `gate_4`: evidence pointer coverage check
+   - `gate_5`: bounded-edit check
 3. If any gate fails:
    - Return fail-safe `no write` result.
    - Open inbox escalation with: conflict summary, conflicting sources, and exact human decision needed.
@@ -44,6 +46,7 @@ Use this skill when you need to maintain current repository context while preser
    - Rewrite only the two embedded context sections.
    - Use compact source pointers per high-impact claim:
      - `[src: <path> | key: "<short quote key>"]`
+   - For claims sourced from disconnected sessions, include pointers to the specific `.external.md` file.
    - Keep context language plain and planning-friendly for student chat workflows.
    - Keep statements factual and avoid speculation.
    - Keep text concise for upload-first workflows.
@@ -58,6 +61,7 @@ Treat the following as material:
 - New project facts, decisions, constraints, or workflow rules.
 - New promoted artifacts in `docs/ideas`, `docs/specs`, or `docs/decisions`.
 - New active thread directions that affect next actions.
+- New validated `threads/*.external.md` submissions containing novel insights or proposed decisions.
 
 Treat the following as non-material:
 - Wording-only edits that do not change meaning.
@@ -71,3 +75,5 @@ Treat the following as non-material:
 - Do not create or update separate context files outside `FOR_AGENTS.md`.
 - Avoid large rewrites that erase historical continuity.
 - Do not write context sections when unresolved contradiction or uncertainty exists.
+- Do not ingest `.external.md` files missing required metadata or required section headings.
+- Treat conflicts between `.external.md` proposals and existing `docs/decisions/*` as fail-safe no-write until a human resolves the conflict.
