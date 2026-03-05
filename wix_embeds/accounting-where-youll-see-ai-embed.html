@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Where You'll See AI in Accounting</title>
+    <style>
+      :root {
+        --smeal-navy: #0a2e63;
+        --smeal-blue: #0d4b95;
+        --smeal-accent: #1e6fd9;
+        --surface: #ffffff;
+        --surface-alt: #f7faff;
+        --border: #dce6f5;
+        --text: #123e79;
+        --soft-shadow: 0 10px 28px rgba(10, 46, 99, 0.1);
+        --focus-ring: 0 0 0 3px rgba(30, 111, 217, 0.26);
+        --radius-panel: 18px;
+        --radius-card: 14px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        background: transparent;
+        font-family: Inter, "Segoe UI", Arial, sans-serif;
+        color: var(--text);
+        line-height: 1.55;
+      }
+
+      .board {
+        width: 100%;
+        margin: 0;
+        background: transparent;
+      }
+
+      .board-panel {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-panel);
+        padding: 32px;
+        box-shadow: var(--soft-shadow);
+        position: relative;
+        overflow: clip;
+      }
+
+      .board-panel::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #1e6fd9 0%, #0d4b95 60%, #0a2e63 100%);
+      }
+
+      .title {
+        margin: 0;
+        color: var(--smeal-navy);
+        font-size: clamp(2rem, 3.6vw, 3.1rem);
+        line-height: 1.08;
+        letter-spacing: -0.01em;
+      }
+
+      .intro {
+        margin: 14px 0 0;
+        color: var(--text);
+        max-width: 70ch;
+        font-size: clamp(1.05rem, 1.35vw, 1.45rem);
+      }
+
+      .quick-context {
+        margin-top: 24px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-card);
+        background: linear-gradient(180deg, #fbfdff 0%, #f7fbff 100%);
+        padding: 18px;
+      }
+
+      .panel-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 12px;
+        padding: 5px 12px;
+        border-radius: 999px;
+        border: 1px solid #c3d7f5;
+        background: #eef5ff;
+        color: var(--smeal-navy);
+        font-weight: 700;
+        font-size: 0.85rem;
+        letter-spacing: 0.02em;
+      }
+
+      .quick-context-grid {
+        display: grid;
+        gap: 14px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .context-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px;
+        min-height: 120px;
+      }
+
+      .context-label {
+        display: inline-block;
+        margin: 0 0 8px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        border: 1px solid #cfe0f9;
+        color: var(--smeal-blue);
+        font-weight: 700;
+        font-size: 0.8rem;
+        background: #f4f9ff;
+      }
+
+      .context-text {
+        margin: 0;
+        font-size: 0.98rem;
+      }
+
+      .cards-grid {
+        margin-top: 24px;
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .card {
+        border: 1px solid var(--border);
+        border-left: 4px solid var(--smeal-accent);
+        border-radius: var(--radius-card);
+        background: var(--surface-alt);
+        transition: box-shadow 200ms ease, transform 200ms ease, border-color 200ms ease;
+      }
+
+      .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 24px rgba(10, 46, 99, 0.12);
+      }
+
+      .card-heading {
+        margin: 0;
+      }
+
+      .card-trigger {
+        width: 100%;
+        border: 0;
+        background: transparent;
+        text-align: left;
+        cursor: pointer;
+        padding: 18px 18px 14px;
+        color: inherit;
+      }
+
+      .card-trigger:focus-visible {
+        outline: none;
+        box-shadow: var(--focus-ring);
+        border-radius: 10px;
+      }
+
+      .card-trigger-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .card-title {
+        margin: 0;
+        color: var(--smeal-navy);
+        font-size: 1.18rem;
+        line-height: 1.28;
+      }
+
+      .chevron {
+        width: 18px;
+        height: 18px;
+        color: var(--smeal-accent);
+        transform: rotate(0deg);
+        transition: transform 200ms ease;
+        flex: 0 0 auto;
+      }
+
+      .card[data-open="true"] .chevron {
+        transform: rotate(180deg);
+      }
+
+      .card-preview {
+        margin: 12px 0 0;
+        font-size: 0.99rem;
+      }
+
+      .card-panel {
+        display: grid;
+        grid-template-rows: 0fr;
+        opacity: 0;
+        transition: grid-template-rows 200ms ease, opacity 200ms ease;
+      }
+
+      .card[data-open="true"] .card-panel {
+        grid-template-rows: 1fr;
+        opacity: 1;
+      }
+
+      .card-panel-inner {
+        overflow: hidden;
+      }
+
+      .card-detail {
+        margin: 0;
+        padding: 0 18px 18px;
+        font-size: 0.97rem;
+      }
+
+      .myth-reality {
+        margin-top: 24px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-card);
+        background: #f7fbff;
+        padding: 16px;
+      }
+
+      .myth-reality-grid {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .myth,
+      .reality {
+        margin: 0;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--surface);
+        padding: 12px;
+        font-size: 0.95rem;
+      }
+
+      .myth strong,
+      .reality strong {
+        color: var(--smeal-navy);
+      }
+
+      .takeaways {
+        margin-top: 24px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-card);
+        background: var(--surface);
+        padding: 18px;
+      }
+
+      .takeaways-list {
+        margin: 0;
+        padding-left: 20px;
+      }
+
+      .takeaways-list li {
+        margin: 0 0 8px;
+        font-size: 0.97rem;
+      }
+
+      .takeaways-list li:last-child {
+        margin-bottom: 0;
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        border: 0;
+        padding: 0;
+        clip: rect(0, 0, 0, 0);
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+      @media (max-width: 980px) {
+        .board-panel {
+          padding: 24px;
+        }
+
+        .quick-context-grid,
+        .cards-grid,
+        .myth-reality-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .board-panel {
+          border-radius: 14px;
+          padding: 18px;
+        }
+
+        .title {
+          font-size: clamp(1.75rem, 8vw, 2.2rem);
+        }
+
+        .intro {
+          font-size: 1rem;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .card,
+        .card-panel,
+        .chevron {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!--
+      WIX SETUP NOTES
+      - Place this embed below the existing "Where You'll See AI" chip anchor section.
+      - Desktop embed height: start at 760px.
+      - Mobile embed height: use separate mobile embed at 1180px for stable layout.
+      - Keep global chip row in Wix outside this embed.
+    -->
+    <main class="board" id="embedRoot" aria-labelledby="embedTitle"></main>
+    <p class="sr-only" id="liveRegion" aria-live="polite"></p>
+
+    <script>
+      /**
+       * SectionEmbedData contract
+       * {
+       *   sectionTitle: string,
+       *   sectionIntro: string,
+       *   uiLabels: {
+       *     quickContextTitle: string,
+       *     inClassLabel: string,
+       *     inPracticeLabel: string,
+       *     cardsRegionLabel: string,
+       *     mythRealityTitle: string,
+       *     mythLabel: string,
+       *     realityLabel: string,
+       *     studentTakeawaysTitle: string,
+       *     expandAnnounceSuffix: string
+       *   },
+       *   quickContext: { inClass: string, inPractice: string },
+       *   cards: Array<{ id: string, title: string, preview: string, detail: string }>,
+       *   mythReality: { myth: string, reality: string },
+       *   studentTakeaways: string[]
+       * }
+       */
+      const sectionEmbedData = {
+        sectionTitle: "Where You'll See AI in Accounting",
+        sectionIntro:
+          "In accounting, AI appears where teams need to review high volumes of financial data with speed, consistency, and oversight.",
+        uiLabels: {
+          quickContextTitle: "Quick Context",
+          inClassLabel: "In Class",
+          inPracticeLabel: "In Practice",
+          cardsRegionLabel: "Where you'll see AI cards",
+          mythRealityTitle: "Myth vs Reality",
+          mythLabel: "Myth",
+          realityLabel: "Reality",
+          studentTakeawaysTitle: "Student Takeaways",
+          expandAnnounceSuffix: "expanded",
+        },
+        quickContext: {
+          inClass:
+            "Students often work with smaller, cleaner datasets in auditing, reporting, tax, and controls coursework.",
+          inPractice:
+            "Firms review continuous transaction streams across many accounts and entities, so AI is discussed as a way to scale review while preserving oversight.",
+        },
+        cards: [
+          {
+            id: "auditing",
+            title: "Auditing",
+            preview:
+              "AI appears in audit planning and testing when coverage needs to go beyond limited samples.",
+            detail:
+              "Teams use AI-assisted review to scan larger transaction sets, surface anomalies earlier, and direct reviewer attention to areas that need deeper professional judgment.",
+          },
+          {
+            id: "financial-reporting",
+            title: "Financial Reporting",
+            preview:
+              "AI shows up in reconciliation and reporting workflows that require consistency across records.",
+            detail:
+              "It helps apply repeatable checks across accounts and periods, especially when data is distributed across systems and must still meet documentation expectations.",
+          },
+          {
+            id: "tax-compliance",
+            title: "Tax & Compliance",
+            preview:
+              "AI is used in rule-based checks and compliance monitoring across high-volume data.",
+            detail:
+              "It can flag filings or transactions for closer review, while final interpretation remains tied to accounting standards and human judgment.",
+          },
+          {
+            id: "internal-controls",
+            title: "Internal Controls",
+            preview:
+              "AI appears in control testing and exception monitoring over time.",
+            detail:
+              "It helps teams track control performance and prioritize limited review capacity toward higher-risk accounts, transactions, or process stages.",
+          },
+        ],
+        mythReality: {
+          myth: "AI can replace accounting judgment.",
+          reality:
+            "AI can improve coverage and consistency, but decisions involving standards interpretation, materiality, and accountability remain human responsibilities.",
+        },
+        studentTakeaways: [
+          "Expect AI to appear where data volume is highest.",
+          "Use AI outputs as review signals, not final conclusions.",
+          "In accounting, explainability and documentation matter as much as speed.",
+        ],
+      };
+
+      const embedBehavior = {
+        defaultOpenCardId: "auditing",
+        singleOpen: true,
+      };
+
+      const state = {
+        openCardId: embedBehavior.defaultOpenCardId,
+      };
+
+      const root = document.getElementById("embedRoot");
+      const liveRegion = document.getElementById("liveRegion");
+
+      function create(tag, className) {
+        const el = document.createElement(tag);
+        if (className) el.className = className;
+        return el;
+      }
+
+      function onCardToggle(cardId) {
+        if (embedBehavior.singleOpen && state.openCardId === cardId) {
+          return;
+        }
+        state.openCardId = cardId;
+        renderCards(cardId);
+      }
+
+      function announceCard(cardTitle) {
+        liveRegion.textContent = cardTitle + " " + sectionEmbedData.uiLabels.expandAnnounceSuffix;
+      }
+
+      function renderCards(focusCardId) {
+        const cardsRegion = document.getElementById("cardsRegion");
+        cardsRegion.innerHTML = "";
+
+        sectionEmbedData.cards.forEach((card) => {
+          const isOpen = state.openCardId === card.id;
+
+          const cardArticle = create("article", "card");
+          cardArticle.dataset.open = String(isOpen);
+          cardArticle.setAttribute("aria-expanded", String(isOpen));
+
+          const heading = create("h3", "card-heading");
+          const trigger = create("button", "card-trigger");
+          trigger.type = "button";
+          trigger.id = "trigger-" + card.id;
+          trigger.setAttribute("aria-expanded", String(isOpen));
+          trigger.setAttribute("aria-controls", "panel-" + card.id);
+
+          const triggerRow = create("span", "card-trigger-row");
+          const title = create("span", "card-title");
+          title.textContent = card.title;
+
+          const chevron = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+          chevron.setAttribute("viewBox", "0 0 24 24");
+          chevron.setAttribute("class", "chevron");
+          chevron.setAttribute("aria-hidden", "true");
+
+          const chevronPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+          chevronPath.setAttribute("d", "M6 9l6 6 6-6");
+          chevronPath.setAttribute("fill", "none");
+          chevronPath.setAttribute("stroke", "currentColor");
+          chevronPath.setAttribute("stroke-width", "2");
+          chevronPath.setAttribute("stroke-linecap", "round");
+          chevronPath.setAttribute("stroke-linejoin", "round");
+          chevron.appendChild(chevronPath);
+
+          triggerRow.appendChild(title);
+          triggerRow.appendChild(chevron);
+
+          const preview = create("p", "card-preview");
+          preview.textContent = card.preview;
+
+          trigger.appendChild(triggerRow);
+          trigger.appendChild(preview);
+
+          const panel = create("div", "card-panel");
+          panel.id = "panel-" + card.id;
+          panel.setAttribute("role", "region");
+          panel.setAttribute("aria-labelledby", trigger.id);
+          panel.setAttribute("aria-hidden", String(!isOpen));
+
+          const panelInner = create("div", "card-panel-inner");
+          const detail = create("p", "card-detail");
+          detail.textContent = card.detail;
+
+          panelInner.appendChild(detail);
+          panel.appendChild(panelInner);
+
+          trigger.addEventListener("click", () => {
+            onCardToggle(card.id);
+            announceCard(card.title);
+          });
+
+          heading.appendChild(trigger);
+          cardArticle.appendChild(heading);
+          cardArticle.appendChild(panel);
+          cardsRegion.appendChild(cardArticle);
+        });
+
+        if (focusCardId) {
+          const focusTarget = document.getElementById("trigger-" + focusCardId);
+          if (focusTarget) {
+            focusTarget.focus();
+          }
+        }
+      }
+
+      function render() {
+        root.innerHTML = "";
+
+        const panel = create("section", "board-panel");
+
+        const title = create("h2", "title");
+        title.id = "embedTitle";
+        title.textContent = sectionEmbedData.sectionTitle;
+
+        const intro = create("p", "intro");
+        intro.textContent = sectionEmbedData.sectionIntro;
+
+        const quickContext = create("section", "quick-context");
+        quickContext.setAttribute("aria-label", sectionEmbedData.uiLabels.quickContextTitle);
+
+        const quickKicker = create("p", "panel-kicker");
+        quickKicker.textContent = sectionEmbedData.uiLabels.quickContextTitle;
+
+        const quickGrid = create("div", "quick-context-grid");
+
+        const classCard = create("article", "context-card");
+        const classLabel = create("p", "context-label");
+        classLabel.textContent = sectionEmbedData.uiLabels.inClassLabel;
+        const classText = create("p", "context-text");
+        classText.textContent = sectionEmbedData.quickContext.inClass;
+        classCard.appendChild(classLabel);
+        classCard.appendChild(classText);
+
+        const practiceCard = create("article", "context-card");
+        const practiceLabel = create("p", "context-label");
+        practiceLabel.textContent = sectionEmbedData.uiLabels.inPracticeLabel;
+        const practiceText = create("p", "context-text");
+        practiceText.textContent = sectionEmbedData.quickContext.inPractice;
+        practiceCard.appendChild(practiceLabel);
+        practiceCard.appendChild(practiceText);
+
+        quickGrid.appendChild(classCard);
+        quickGrid.appendChild(practiceCard);
+        quickContext.appendChild(quickKicker);
+        quickContext.appendChild(quickGrid);
+
+        const cardsRegion = create("section", "cards-grid");
+        cardsRegion.id = "cardsRegion";
+        cardsRegion.setAttribute("aria-label", sectionEmbedData.uiLabels.cardsRegionLabel);
+
+        const mythReality = create("section", "myth-reality");
+        mythReality.setAttribute("aria-label", sectionEmbedData.uiLabels.mythRealityTitle);
+
+        const mythKicker = create("p", "panel-kicker");
+        mythKicker.textContent = sectionEmbedData.uiLabels.mythRealityTitle;
+
+        const mythGrid = create("div", "myth-reality-grid");
+        const myth = create("p", "myth");
+        const mythStrong = document.createElement("strong");
+        mythStrong.textContent = sectionEmbedData.uiLabels.mythLabel + ":";
+        myth.appendChild(mythStrong);
+        myth.appendChild(document.createTextNode(" " + sectionEmbedData.mythReality.myth));
+        const reality = create("p", "reality");
+        const realityStrong = document.createElement("strong");
+        realityStrong.textContent = sectionEmbedData.uiLabels.realityLabel + ":";
+        reality.appendChild(realityStrong);
+        reality.appendChild(document.createTextNode(" " + sectionEmbedData.mythReality.reality));
+
+        mythGrid.appendChild(myth);
+        mythGrid.appendChild(reality);
+        mythReality.appendChild(mythKicker);
+        mythReality.appendChild(mythGrid);
+
+        const takeaways = create("section", "takeaways");
+        takeaways.setAttribute("aria-label", sectionEmbedData.uiLabels.studentTakeawaysTitle);
+
+        const takeawaysKicker = create("p", "panel-kicker");
+        takeawaysKicker.textContent = sectionEmbedData.uiLabels.studentTakeawaysTitle;
+
+        const takeawaysList = create("ol", "takeaways-list");
+        sectionEmbedData.studentTakeaways.forEach((item) => {
+          const li = document.createElement("li");
+          li.textContent = item;
+          takeawaysList.appendChild(li);
+        });
+
+        takeaways.appendChild(takeawaysKicker);
+        takeaways.appendChild(takeawaysList);
+
+        panel.appendChild(title);
+        panel.appendChild(intro);
+        panel.appendChild(quickContext);
+        panel.appendChild(cardsRegion);
+        panel.appendChild(mythReality);
+        panel.appendChild(takeaways);
+
+        root.appendChild(panel);
+
+        renderCards();
+      }
+
+      render();
+    </script>
+  </body>
+</html>

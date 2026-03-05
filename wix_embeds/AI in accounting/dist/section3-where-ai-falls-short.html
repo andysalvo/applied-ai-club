@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Where AI Falls Short</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --aihub-primary: #01458F;
+      --aihub-hover: #0C5BBF;
+      --aihub-white: #FFFFFF;
+      --aihub-light-bg: #F7F9FC;
+      --aihub-border: #E3E8F0;
+      --aihub-text-primary: #0B1F3B;
+      --aihub-text-secondary: #4B5D73;
+      --aihub-accent: #B37512;
+      --aihub-accent-soft: rgba(179, 117, 18, 0.08);
+      --aihub-accent-border: rgba(179, 117, 18, 0.32);
+      --aihub-shell-height: 900px;
+      --aihub-shell-height-mobile: 1080px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--aihub-light-bg);
+      color: var(--aihub-text-primary);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    html.aihub-no-inter body { letter-spacing: 0.002em; }
+    html.aihub-no-inter .aihub-title { font-weight: 680; letter-spacing: -0.004em; }
+
+    .aihub-shell {
+      max-width: 1120px;
+      height: var(--aihub-shell-height);
+      margin: 0 auto;
+      padding: 32px;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 24px;
+      overflow: hidden;
+    }
+
+    .aihub-head {
+      display: grid;
+      gap: 12px;
+    }
+
+    .aihub-section-label {
+      margin: 0;
+      width: fit-content;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--aihub-accent-border);
+      color: var(--aihub-primary);
+      font-size: 12px;
+      line-height: 1.3;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .aihub-title {
+      margin: 0;
+      font-size: clamp(40px, 4.2vw, 44px);
+      line-height: 1.2;
+      letter-spacing: -0.012em;
+      font-weight: 700;
+      color: var(--aihub-text-primary);
+    }
+
+    .aihub-subtitle {
+      margin: 0;
+      max-width: 86ch;
+      font-size: 18px;
+      line-height: 1.58;
+      color: var(--aihub-text-secondary);
+      font-weight: 400;
+    }
+
+    .aihub-stage {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(320px, 45%) minmax(0, 55%);
+      gap: 24px;
+      padding: 24px;
+      border: 1px solid var(--aihub-border);
+      border-radius: 8px;
+      background: var(--aihub-white);
+    }
+
+    .aihub-left {
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto auto auto 1fr;
+      gap: 12px;
+    }
+
+    .aihub-left-title {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 600;
+      color: var(--aihub-text-secondary);
+      letter-spacing: 0.01em;
+    }
+
+    .aihub-hint {
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.4;
+      font-weight: 500;
+      color: var(--aihub-text-secondary);
+    }
+
+    .aihub-assumption-label {
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.35;
+      color: var(--aihub-text-secondary);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .aihub-assumptions {
+      min-height: 0;
+      overflow: auto;
+      border: 1px solid var(--aihub-border);
+      border-radius: 6px;
+      background: var(--aihub-white);
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .aihub-assumption {
+      width: 100%;
+      min-height: 50px;
+      border: 1px solid var(--aihub-border);
+      border-radius: 6px;
+      background: var(--aihub-white);
+      text-align: left;
+      padding: 12px;
+      font-size: 14px;
+      line-height: 1.5;
+      font-weight: 500;
+      color: var(--aihub-text-primary);
+      cursor: pointer;
+      transition: border-color 180ms ease, background 180ms ease;
+    }
+
+    .aihub-assumption:hover { border-color: var(--aihub-hover); }
+
+    .aihub-assumption:focus-visible {
+      outline: 3px solid rgba(179, 117, 18, 0.28);
+      outline-offset: 1px;
+      border-color: var(--aihub-accent);
+    }
+
+    .aihub-assumption-active {
+      border-color: var(--aihub-accent);
+      background: var(--aihub-accent-soft);
+    }
+
+    .aihub-reading {
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 12px;
+      padding: 24px;
+      border: 1px solid var(--aihub-border);
+      border-left: 3px solid var(--aihub-accent);
+      border-radius: 6px;
+      background: #FFFEFC;
+    }
+
+    .aihub-practice-label {
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.35;
+      color: var(--aihub-text-secondary);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .aihub-reading-scroll {
+      min-height: 0;
+      overflow: auto;
+      padding-right: 12px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .aihub-entry {
+      padding: 16px;
+      border: 1px solid var(--aihub-border);
+      border-radius: 6px;
+      background: var(--aihub-white);
+    }
+
+    .aihub-entry p {
+      margin: 0 0 12px;
+      font-size: 15px;
+      line-height: 1.63;
+      color: var(--aihub-text-secondary);
+    }
+
+    .aihub-entry p:last-of-type { margin-bottom: 0; }
+
+    .aihub-context {
+      margin: 0 0 12px;
+      font-size: 16px;
+      line-height: 1.6;
+      font-weight: 500;
+      color: var(--aihub-text-primary);
+    }
+
+    .aihub-assumption-text {
+      margin: 0 0 12px;
+      padding-left: 12px;
+      border-left: 2px solid var(--aihub-accent);
+      font-size: 14px;
+      line-height: 1.56;
+      font-weight: 500;
+      color: var(--aihub-text-primary);
+    }
+
+    .aihub-panel-title {
+      margin: 0 0 12px;
+      font-size: 28px;
+      line-height: 1.22;
+      letter-spacing: -0.01em;
+      font-weight: 600;
+      color: var(--aihub-text-primary);
+    }
+
+    .aihub-boundary {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--aihub-accent-border);
+      font-size: 14px;
+      line-height: 1.58;
+      font-weight: 500;
+      color: var(--aihub-text-primary);
+    }
+
+    .aihub-shell.aihub-enhanced .aihub-entry {
+      display: none;
+      animation: aihubFadeSlide 180ms ease;
+    }
+
+    .aihub-shell.aihub-enhanced .aihub-entry[data-aihub-active="true"] {
+      display: block;
+    }
+
+    .aihub-sr {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @keyframes aihubFadeSlide {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 900px) {
+      .aihub-shell {
+        height: var(--aihub-shell-height-mobile);
+        padding: 24px;
+      }
+
+      .aihub-stage {
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(330px, 44%) minmax(0, 56%);
+      }
+    }
+
+    @media (max-width: 620px) {
+      .aihub-shell {
+        padding: 16px;
+        gap: 16px;
+      }
+
+      .aihub-stage {
+        gap: 16px;
+        padding: 16px;
+      }
+
+      .aihub-title { font-size: clamp(34px, 9.3vw, 40px); }
+      .aihub-subtitle { font-size: 16px; }
+      .aihub-reading { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="aihub-shell" data-aihub-section="section3">
+    <header class="aihub-head">
+      <p class="aihub-section-label">Where AI Falls Short</p>
+      <h1 class="aihub-title">Where AI Falls Short</h1>
+      <p class="aihub-subtitle">Misunderstandings appear when automated analysis is treated as independent accounting decision-making. In practice, standards interpretation, documentation, and oversight still define what is acceptable.</p>
+    </header>
+
+    <section class="aihub-stage" aria-label="Where AI falls short in accounting">
+      <div class="aihub-left">
+        <p class="aihub-left-title">Common assumptions discussed in class and practice</p>
+        <p class="aihub-hint">Select a misconception.</p>
+        <p class="aihub-assumption-label">A common assumption</p>
+
+        <div class="aihub-assumptions">
+          <button class="aihub-assumption" type="button" data-aihub-item="judgment" aria-pressed="true">AI can replace professional judgment in accounting decisions.</button>
+          <button class="aihub-assumption" type="button" data-aihub-item="objective" aria-pressed="false">AI output is automatically objective and accurate.</button>
+          <button class="aihub-assumption" type="button" data-aihub-item="adapt" aria-pressed="false">AI adapts easily whenever standards and guidance change.</button>
+          <button class="aihub-assumption" type="button" data-aihub-item="standalone" aria-pressed="false">AI works as a standalone accounting solution.</button>
+        </div>
+      </div>
+
+      <aside class="aihub-reading" aria-live="polite">
+        <p class="aihub-practice-label">What’s true in practice</p>
+
+        <div class="aihub-reading-scroll">
+          <article class="aihub-entry" data-aihub-entry="judgment" data-aihub-active="true">
+            <p class="aihub-assumption-text">A common assumption: AI can replace professional judgment in accounting decisions.</p>
+            <h2 class="aihub-panel-title">Professional judgment cannot be delegated</h2>
+            <p class="aihub-context">Accounting standards require context-specific interpretation and materiality assessment.</p>
+            <p>Automated systems can process large datasets and apply predefined logic, but this does not resolve classification or valuation judgment by itself.</p>
+            <p>In audit and compliance work, decisions still depend on professional evaluation of context and evidence.</p>
+            <p>AI-supported output is used as input to review, not as final authority.</p>
+            <p class="aihub-boundary">Interpretation, documentation, and sign-off remain human responsibilities.</p>
+          </article>
+
+          <article class="aihub-entry" data-aihub-entry="objective" data-aihub-active="false">
+            <p class="aihub-assumption-text">A common assumption: AI output is automatically objective and accurate.</p>
+            <h2 class="aihub-panel-title">Output quality depends on data and review design</h2>
+            <p class="aihub-context">Results are shaped by data preparation, rule definitions, and review controls.</p>
+            <p>When records are incomplete or classifications are inconsistent, automated analysis can carry those problems forward.</p>
+            <p>Apparent precision should not be treated as proof of reliable accounting interpretation.</p>
+            <p>Teams review outputs against source quality and process controls before relying on them.</p>
+            <p class="aihub-boundary">Reliability comes from governance and oversight, not automation alone.</p>
+          </article>
+
+          <article class="aihub-entry" data-aihub-entry="adapt" data-aihub-active="false">
+            <p class="aihub-assumption-text">A common assumption: AI adapts easily whenever standards and guidance change.</p>
+            <h2 class="aihub-panel-title">Standards changes limit automation independence</h2>
+            <p class="aihub-context">Accounting rules evolve through new guidance and interpretation over time.</p>
+            <p>Applying those changes correctly often requires current professional awareness, especially for estimates and disclosures.</p>
+            <p>Systems based on earlier patterns may not capture updated expectations without active review.</p>
+            <p>In practice, teams adjust automated workflows as standards change.</p>
+            <p class="aihub-boundary">Adaptation to guidance remains a professional governance responsibility.</p>
+          </article>
+
+          <article class="aihub-entry" data-aihub-entry="standalone" data-aihub-active="false">
+            <p class="aihub-assumption-text">A common assumption: AI works as a standalone accounting solution.</p>
+            <h2 class="aihub-panel-title">AI remains part of broader accounting processes</h2>
+            <p class="aihub-context">Accounting work continues to require documentation, layered review, and oversight structures.</p>
+            <p>In professional settings, AI is used inside existing workflows rather than as an independent substitute.</p>
+            <p>Decisions still move through controls, reviewer checkpoints, and written rationale.</p>
+            <p>The value of automation depends on how it fits those governance structures.</p>
+            <p class="aihub-boundary">Accountability for conclusions remains with professionals, not systems.</p>
+          </article>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script>
+    const AIHUB_ENABLE_POSTMESSAGE = false;
+
+    const AIHUB_ITEMS = [
+      {
+        id: "judgment",
+        label: "Professional judgment",
+        contextLine: "Accounting standards require context-specific interpretation and materiality assessment.",
+        explanation: [
+          "Automated systems can process large datasets and apply predefined logic, but this does not resolve classification or valuation judgment by itself.",
+          "In audit and compliance work, decisions still depend on professional evaluation of context and evidence.",
+          "AI-supported output is used as input to review, not as final authority."
+        ],
+        boundaryLine: "Interpretation, documentation, and sign-off remain human responsibilities."
+      },
+      {
+        id: "objective",
+        label: "Objectivity",
+        contextLine: "Results are shaped by data preparation, rule definitions, and review controls.",
+        explanation: [
+          "When records are incomplete or classifications are inconsistent, automated analysis can carry those problems forward.",
+          "Apparent precision should not be treated as proof of reliable accounting interpretation.",
+          "Teams review outputs against source quality and process controls before relying on them."
+        ],
+        boundaryLine: "Reliability comes from governance and oversight, not automation alone."
+      },
+      {
+        id: "adapt",
+        label: "Standards adaptation",
+        contextLine: "Accounting rules evolve through new guidance and interpretation over time.",
+        explanation: [
+          "Applying those changes correctly often requires current professional awareness, especially for estimates and disclosures.",
+          "Systems based on earlier patterns may not capture updated expectations without active review.",
+          "In practice, teams adjust automated workflows as standards change."
+        ],
+        boundaryLine: "Adaptation to guidance remains a professional governance responsibility."
+      },
+      {
+        id: "standalone",
+        label: "Standalone solution",
+        contextLine: "Accounting work continues to require documentation, layered review, and oversight structures.",
+        explanation: [
+          "In professional settings, AI is used inside existing workflows rather than as an independent substitute.",
+          "Decisions still move through controls, reviewer checkpoints, and written rationale.",
+          "The value of automation depends on how it fits those governance structures."
+        ],
+        boundaryLine: "Accountability for conclusions remains with professionals, not systems."
+      }
+    ];
+
+    function aihubMaybePostHeight(sectionId) {
+      if (!AIHUB_ENABLE_POSTMESSAGE) return;
+      window.parent.postMessage({
+        type: "AIHUB_EMBED_HEIGHT",
+        sectionId,
+        height: document.body.scrollHeight,
+        version: "1.0"
+      }, "*");
+    }
+
+    function aihubCheckInter() {
+      let available = false;
+      if (document.fonts && typeof document.fonts.check === "function") {
+        available = document.fonts.check("16px Inter");
+      }
+      const probe = document.createElement("span");
+      probe.className = "aihub-sr";
+      probe.style.fontFamily = '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+      probe.textContent = "font-check";
+      document.body.appendChild(probe);
+      const family = (getComputedStyle(probe).fontFamily || "").toLowerCase();
+      probe.remove();
+      if (!available || family.indexOf("inter") === -1) {
+        document.documentElement.classList.add("aihub-no-inter");
+      }
+    }
+
+    function aihubInitSection() {
+      const shell = document.querySelector(".aihub-shell");
+      const buttons = Array.from(document.querySelectorAll("[data-aihub-item]"));
+      const entries = Array.from(document.querySelectorAll("[data-aihub-entry]"));
+      if (!shell || !buttons.length || !entries.length) return;
+
+      shell.classList.add("aihub-enhanced");
+
+      function selectItem(id) {
+        buttons.forEach(function (button) {
+          const active = button.getAttribute("data-aihub-item") === id;
+          button.classList.toggle("aihub-assumption-active", active);
+          button.setAttribute("aria-pressed", String(active));
+        });
+
+        entries.forEach(function (entry) {
+          const active = entry.getAttribute("data-aihub-entry") === id;
+          entry.setAttribute("data-aihub-active", String(active));
+        });
+
+        aihubMaybePostHeight("section3");
+      }
+
+      buttons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          selectItem(button.getAttribute("data-aihub-item"));
+        });
+      });
+
+      selectItem("judgment");
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const ready = function () {
+        aihubCheckInter();
+        aihubInitSection();
+      };
+
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(ready).catch(ready);
+      } else {
+        ready();
+      }
+    });
+  </script>
+</body>
+</html>

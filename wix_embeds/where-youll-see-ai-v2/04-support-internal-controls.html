@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Where You'll See AI - Internal Controls</title>
+    <style>
+      :root {
+        --smeal-navy: #0a2e63;
+        --smeal-blue: #0d4b95;
+        --smeal-accent: #1e6fd9;
+        --surface: #ffffff;
+        --surface-soft: #f8fbff;
+        --border: #dbe7f7;
+        --text: #163f79;
+      }
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        background: transparent;
+        font-family: Inter, "Segoe UI", Arial, sans-serif;
+        color: var(--text);
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 18px;
+        position: relative;
+      }
+      .card::before {
+        content: "";
+        position: absolute;
+        top: 16px;
+        left: 0;
+        width: 3px;
+        height: 34px;
+        background: var(--smeal-accent);
+        border-radius: 0 3px 3px 0;
+      }
+      .eyebrow {
+        margin: 0 0 8px;
+        padding-left: 10px;
+        color: var(--smeal-blue);
+        font-weight: 700;
+        font-size: 0.77rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+      h3 {
+        margin: 0;
+        color: var(--smeal-navy);
+        font-size: 1.34rem;
+        line-height: 1.2;
+      }
+      .lead {
+        margin: 10px 0 0;
+        font-size: 0.98rem;
+        line-height: 1.52;
+      }
+      .body {
+        margin: 12px 0 0;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: var(--surface-soft);
+        padding: 11px 12px;
+        font-size: 0.93rem;
+        line-height: 1.56;
+      }
+      .reveal-trigger {
+        margin-top: 12px;
+        border: 1px solid #bfd3f0;
+        background: #f4f9ff;
+        color: var(--smeal-navy);
+        border-radius: 8px;
+        padding: 7px 11px;
+        font-size: 0.86rem;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .reveal-trigger:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(30, 111, 217, 0.22);
+      }
+      .reveal-panel {
+        margin-top: 10px;
+        border-top: 1px solid var(--border);
+        padding-top: 10px;
+      }
+      .reveal-panel[hidden] { display: none; }
+      .reveal-text {
+        margin: 0;
+        font-size: 0.91rem;
+        line-height: 1.52;
+      }
+      .student-lens {
+        margin: 10px 0 0;
+        border-left: 3px solid #c9daf2;
+        padding-left: 9px;
+        font-size: 0.89rem;
+        color: #224f8e;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Wix suggested heights: desktop 330px, mobile 380px -->
+    <article class="card" aria-labelledby="title-controls">
+      <p class="eyebrow">Support Domain</p>
+      <h3 id="title-controls">Internal Controls</h3>
+      <p class="lead">
+        AI appears in control testing and exception monitoring when teams need to track risk signals continuously.
+      </p>
+      <p class="body">
+        It helps reviewers prioritize limited time toward higher-risk accounts, process stages, or transaction patterns.
+      </p>
+
+      <button class="reveal-trigger" type="button" aria-expanded="false" aria-controls="panel-controls" data-toggle>
+        Read more
+      </button>
+      <section id="panel-controls" class="reveal-panel" hidden data-panel>
+        <p class="reveal-text">
+          Effective use still depends on governance and documentation. Control conclusions require human sign-off and explainable rationale.
+        </p>
+        <p class="student-lens">
+          Student lens: practice articulating why a flagged control issue changes the review plan.
+        </p>
+      </section>
+    </article>
+
+    <script>
+      (function () {
+        const trigger = document.querySelector("[data-toggle]");
+        const panel = document.querySelector("[data-panel]");
+        if (!trigger || !panel) return;
+        trigger.addEventListener("click", function () {
+          const expanded = trigger.getAttribute("aria-expanded") === "true";
+          const next = !expanded;
+          trigger.setAttribute("aria-expanded", String(next));
+          panel.hidden = !next;
+        });
+      })();
+    </script>
+  </body>
+</html>

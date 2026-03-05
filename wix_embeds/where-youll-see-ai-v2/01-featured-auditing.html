@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Where You'll See AI - Auditing (Featured)</title>
+    <style>
+      :root {
+        --smeal-navy: #0a2e63;
+        --smeal-blue: #0d4b95;
+        --smeal-accent: #1e6fd9;
+        --surface: #ffffff;
+        --surface-soft: #f8fbff;
+        --border: #dbe7f7;
+        --text: #163f79;
+      }
+
+      * { box-sizing: border-box; }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        background: transparent;
+        font-family: Inter, "Segoe UI", Arial, sans-serif;
+        color: var(--text);
+      }
+
+      .embed {
+        width: 100%;
+      }
+
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 24px;
+        box-shadow: 0 6px 18px rgba(10, 46, 99, 0.08);
+        position: relative;
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        top: 18px;
+        left: 0;
+        width: 4px;
+        height: 44px;
+        background: var(--smeal-accent);
+        border-radius: 0 3px 3px 0;
+      }
+
+      .eyebrow {
+        margin: 0 0 8px;
+        padding-left: 12px;
+        color: var(--smeal-blue);
+        font-weight: 700;
+        font-size: 0.8rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      h2 {
+        margin: 0;
+        color: var(--smeal-navy);
+        font-size: clamp(1.6rem, 3.1vw, 2.15rem);
+        line-height: 1.15;
+        letter-spacing: -0.01em;
+      }
+
+      .lead {
+        margin: 12px 0 0;
+        font-size: 1.04rem;
+        line-height: 1.55;
+        max-width: 62ch;
+      }
+
+      .body {
+        margin: 14px 0 0;
+        padding: 14px 16px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--surface-soft);
+        font-size: 0.98rem;
+        line-height: 1.58;
+      }
+
+      .reveal-trigger {
+        margin-top: 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid #b8cff0;
+        background: #f2f8ff;
+        color: var(--smeal-navy);
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .reveal-trigger:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(30, 111, 217, 0.24);
+      }
+
+      .reveal-panel {
+        margin-top: 12px;
+        border-top: 1px solid var(--border);
+        padding-top: 12px;
+      }
+
+      .reveal-panel[hidden] {
+        display: none;
+      }
+
+      .reveal-text {
+        margin: 0;
+        font-size: 0.96rem;
+        line-height: 1.58;
+      }
+
+      .student-lens {
+        margin: 12px 0 0;
+        font-size: 0.93rem;
+        line-height: 1.52;
+        color: #224d89;
+        border-left: 3px solid #c8dbf5;
+        padding-left: 10px;
+      }
+
+      .chevron {
+        transition: transform 180ms ease;
+      }
+
+      .reveal-trigger[aria-expanded="true"] .chevron {
+        transform: rotate(180deg);
+      }
+
+      @media (max-width: 640px) {
+        .card { padding: 18px; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .chevron { transition: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Wix suggested heights: desktop 410px, mobile 470px -->
+    <main class="embed">
+      <article class="card" aria-labelledby="title-auditing">
+        <p class="eyebrow">Featured Domain</p>
+        <h2 id="title-auditing">Auditing</h2>
+        <p class="lead">
+          AI shows up first in audit planning and transaction testing when manual sampling stops being enough.
+        </p>
+        <p class="body">
+          In accounting programs, this appears in discussions about how reviewers decide where to look closely when time is limited. In practice, firms use AI-supported review to scan broader transaction sets and detect irregular patterns earlier.
+        </p>
+
+        <button class="reveal-trigger" type="button" aria-expanded="false" aria-controls="panel-auditing" data-toggle>
+          Read more
+          <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <section id="panel-auditing" class="reveal-panel" hidden data-panel>
+          <p class="reveal-text">
+            This does not replace auditor judgment. It supports prioritization: AI can widen coverage and surface exceptions, but humans still assess materiality, context, and final conclusions.
+          </p>
+          <p class="student-lens">
+            Student lens: expect interview questions about how you would validate flagged items instead of trusting model output by default.
+          </p>
+        </section>
+      </article>
+    </main>
+
+    <script>
+      (function () {
+        const trigger = document.querySelector("[data-toggle]");
+        const panel = document.querySelector("[data-panel]");
+        if (!trigger || !panel) return;
+
+        trigger.addEventListener("click", function () {
+          const expanded = trigger.getAttribute("aria-expanded") === "true";
+          const next = !expanded;
+          trigger.setAttribute("aria-expanded", String(next));
+          panel.hidden = !next;
+        });
+      })();
+    </script>
+  </body>
+</html>
