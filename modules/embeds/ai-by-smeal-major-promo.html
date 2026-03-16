@@ -11,26 +11,38 @@
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html,body{background:#fff;color:#0B1F3B;font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
 
-    .promo{max-width:900px;margin:0 auto;padding:40px 24px 48px}
+    .promo{max-width:940px;margin:0 auto;padding:48px 24px 56px}
 
     /* ---- Hero ---- */
-    .hero{text-align:center;margin-bottom:48px}
-    .hero-label{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#01458F;margin-bottom:12px}
-    .hero-title{font-size:clamp(28px,4vw,42px);font-weight:800;line-height:1.12;letter-spacing:-.02em;color:#0B1F3B;margin-bottom:16px}
-    .hero-sub{font-size:17px;line-height:1.65;color:#4B5D73;max-width:620px;margin:0 auto}
+    .hero{text-align:center;margin-bottom:56px}
+    .hero-label{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#01458F;border:1.5px solid #01458F;border-radius:20px;padding:5px 16px;margin-bottom:20px}
+    .hero-title{font-size:clamp(32px,4.5vw,48px);font-weight:800;line-height:1.08;letter-spacing:-.025em;color:#0B1F3B;margin-bottom:18px}
+    .hero-title span{color:#01458F}
+    .hero-sub{font-size:17px;line-height:1.7;color:#4B5D73;max-width:600px;margin:0 auto}
 
-    /* ---- Screenshot showcase ---- */
-    .showcase{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:48px}
-    .showcase-img{width:100%;border-radius:10px;border:1px solid #E3E8F0;box-shadow:0 2px 12px rgba(11,31,59,.06);display:block}
+    /* ---- Browser mockup screenshots ---- */
+    .showcase{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:56px;align-items:start}
+    .browser-frame{border-radius:10px;overflow:hidden;box-shadow:0 8px 32px rgba(1,69,143,.10),0 2px 8px rgba(0,0,0,.06);border:1px solid #DDE3ED;background:#fff}
+    .browser-frame.tilted{transform:rotate(1.5deg) translateY(12px)}
+    .browser-bar{height:32px;background:#F0F1F4;display:flex;align-items:center;padding:0 12px;gap:7px;border-bottom:1px solid #DDE3ED}
+    .browser-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+    .browser-dot.red{background:#FF5F57}
+    .browser-dot.yellow{background:#FEBC2E}
+    .browser-dot.green{background:#28C840}
+    .browser-address{flex:1;margin-left:10px;height:18px;border-radius:4px;background:#E4E6EB;max-width:220px}
+    .browser-viewport{width:100%;aspect-ratio:4/3;overflow:hidden}
+    .browser-viewport img{width:100%;height:100%;object-fit:cover;object-position:top;display:block;/* Skip Wix banner, show hero + module content */object-position:center 18%}
 
-    /* ---- Majors grid ---- */
-    .majors-label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#4B5D73;margin-bottom:14px;text-align:center}
-    .majors-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:48px}
-    .major-tag{padding:7px 14px;border-radius:8px;background:#F0F4FA;color:#01458F;font-size:12.5px;font-weight:600;line-height:1.3}
+    /* ---- Majors directory ---- */
+    .majors-section{margin-bottom:56px}
+    .section-label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#4B5D73;margin-bottom:20px;text-align:center}
+    .majors-directory{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:#E3E8F0;border:1px solid #E3E8F0;border-radius:10px;overflow:hidden;max-width:680px;margin:0 auto}
+    .major-item{background:#fff;padding:14px 10px;text-align:center;font-size:13px;font-weight:600;color:#0B1F3B;transition:background 180ms ease,color 180ms ease}
+    .major-item:hover{background:#01458F;color:#fff}
 
     /* ---- How it works ---- */
-    .how{margin-bottom:48px}
-    .how-title{font-size:22px;font-weight:700;color:#0B1F3B;margin-bottom:24px;text-align:center}
+    .how{margin-bottom:56px}
+    .how-title{font-size:22px;font-weight:700;color:#0B1F3B;margin-bottom:28px;text-align:center}
     .steps{display:grid;gap:20px}
     .step{display:grid;grid-template-columns:40px 1fr;gap:16px;align-items:start}
     .step-num{width:36px;height:36px;border-radius:50%;background:#01458F;color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
@@ -38,7 +50,7 @@
     .step-body p{font-size:14px;line-height:1.6;color:#4B5D73}
 
     /* ---- What you get ---- */
-    .value{background:#F7F9FC;border:1px solid #E3E8F0;border-radius:14px;padding:28px 28px 24px;margin-bottom:48px}
+    .value{background:#F7F9FC;border:1px solid #E3E8F0;border-radius:14px;padding:28px 28px 24px;margin-bottom:56px}
     .value-title{font-size:18px;font-weight:700;color:#0B1F3B;margin-bottom:16px}
     .value-list{list-style:none;display:flex;flex-direction:column;gap:12px}
     .value-list li{display:flex;align-items:baseline;gap:10px;font-size:14px;line-height:1.55;color:#0B1F3B}
@@ -46,16 +58,21 @@
 
     /* ---- CTA ---- */
     .cta{text-align:center}
-    .cta-btn{display:inline-block;padding:14px 32px;border-radius:10px;background:#01458F;color:#fff;font-size:15px;font-weight:600;text-decoration:none;transition:background 180ms ease}
-    .cta-btn:hover{background:#0C5BBF}
+    .cta-btn{display:inline-block;padding:14px 32px;border-radius:10px;background:#01458F;color:#fff;font-size:15px;font-weight:600;text-decoration:none;transition:background 180ms ease,transform 120ms ease,box-shadow 180ms ease;box-shadow:0 2px 8px rgba(1,69,143,.18)}
+    .cta-btn:hover{background:#0C5BBF;transform:translateY(-1px);box-shadow:0 4px 16px rgba(1,69,143,.25)}
     .cta-note{font-size:12px;color:#4B5D73;margin-top:10px}
 
     /* ---- Responsive ---- */
     @media(max-width:640px){
       .promo{padding:28px 16px 36px}
-      .showcase{grid-template-columns:1fr;gap:12px}
+      .showcase{grid-template-columns:1fr;gap:20px}
+      .browser-frame.tilted{transform:none}
+      .majors-directory{grid-template-columns:repeat(2,1fr)}
       .step{grid-template-columns:32px 1fr;gap:12px}
       .value{padding:20px 18px}
+    }
+    @media(min-width:641px) and (max-width:800px){
+      .majors-directory{grid-template-columns:repeat(3,1fr)}
     }
   </style>
 </head>
@@ -64,28 +81,50 @@
 
     <section class="hero">
       <p class="hero-label">Student AI Hub</p>
-      <h1 class="hero-title">AI by Smeal Major</h1>
+      <h1 class="hero-title">AI by <span>Smeal Major</span></h1>
       <p class="hero-sub">Interactive learning modules that help Smeal students understand how AI is discussed and applied in the context of their own major. Built by students, for students.</p>
     </section>
 
     <section class="showcase">
-      <img class="showcase-img" src="https://raw.githubusercontent.com/andysalvo/applied-ai-club/main/screenshots/dan-ives-day/major-accounting.png" alt="AI in Accounting module on the Student AI Hub" loading="lazy" />
-      <img class="showcase-img" src="https://raw.githubusercontent.com/andysalvo/applied-ai-club/main/screenshots/dan-ives-day/major-finance.png" alt="AI in Finance module on the Student AI Hub" loading="lazy" />
+      <div class="browser-frame">
+        <div class="browser-bar">
+          <span class="browser-dot red"></span>
+          <span class="browser-dot yellow"></span>
+          <span class="browser-dot green"></span>
+          <div class="browser-address"></div>
+        </div>
+        <div class="browser-viewport">
+          <img src="https://raw.githubusercontent.com/andysalvo/applied-ai-club/main/screenshots/dan-ives-day/major-accounting.png" alt="AI in Accounting module on the Student AI Hub" loading="lazy" />
+        </div>
+      </div>
+      <div class="browser-frame tilted">
+        <div class="browser-bar">
+          <span class="browser-dot red"></span>
+          <span class="browser-dot yellow"></span>
+          <span class="browser-dot green"></span>
+          <div class="browser-address"></div>
+        </div>
+        <div class="browser-viewport">
+          <img src="https://raw.githubusercontent.com/andysalvo/applied-ai-club/main/screenshots/dan-ives-day/major-finance.png" alt="AI in Finance module on the Student AI Hub" loading="lazy" />
+        </div>
+      </div>
     </section>
 
-    <p class="majors-label">All 10 Smeal Majors</p>
-    <div class="majors-grid">
-      <span class="major-tag">Accounting</span>
-      <span class="major-tag">Actuarial Science</span>
-      <span class="major-tag">Corporate Innovation</span>
-      <span class="major-tag">Finance</span>
-      <span class="major-tag">Management</span>
-      <span class="major-tag">MIS</span>
-      <span class="major-tag">Marketing</span>
-      <span class="major-tag">Real Estate</span>
-      <span class="major-tag">Risk Management</span>
-      <span class="major-tag">Supply Chain</span>
-    </div>
+    <section class="majors-section">
+      <p class="section-label">All 10 Smeal Majors</p>
+      <div class="majors-directory">
+        <div class="major-item">Accounting</div>
+        <div class="major-item">Actuarial Science</div>
+        <div class="major-item">Corporate Innovation</div>
+        <div class="major-item">Finance</div>
+        <div class="major-item">Management</div>
+        <div class="major-item">MIS</div>
+        <div class="major-item">Marketing</div>
+        <div class="major-item">Real Estate</div>
+        <div class="major-item">Risk Management</div>
+        <div class="major-item">Supply Chain</div>
+      </div>
+    </section>
 
     <section class="how">
       <h2 class="how-title">How We Built It</h2>
