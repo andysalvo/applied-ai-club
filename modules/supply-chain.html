@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI in Supply Chain and Information Systems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --hub-navy: #01458F;
+      --hub-navy-light: rgba(1, 69, 143, 0.08);
+      --hub-navy-faint: rgba(1, 69, 143, 0.04);
+      --hub-hover: #0C5BBF;
+      --hub-bg: #F7F9FC;
+      --hub-surface: #FFFFFF;
+      --hub-border: #E3E8F0;
+      --hub-text: #0B1F3B;
+      --hub-text-sec: #4B5D73;
+      --hub-radius: 12px;
+      --hub-speed: 180ms ease;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      background: var(--hub-bg);
+      color: var(--hub-text);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .hub-shell { max-width: 1360px; margin: 0 auto; padding: 16px; }
+
+    .hub-module {
+      display: grid; grid-template-columns: 300px 1fr;
+      border: 1px solid var(--hub-border); border-radius: 16px;
+      background: var(--hub-surface); box-shadow: 0 2px 16px rgba(11,31,59,0.05); overflow: hidden;
+    }
+
+    .hub-nav { background: var(--hub-bg); border-right: 1px solid var(--hub-border); padding: 20px 14px; }
+    .hub-nav-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--hub-text-sec); padding: 0 10px 14px; }
+
+    .hub-sec-btn {
+      width: 100%; border: none; border-radius: 10px; background: transparent;
+      color: var(--hub-text); text-align: left; padding: 11px 12px;
+      font: 600 13.5px/1.4 "Inter", sans-serif; cursor: pointer;
+      display: flex; align-items: center; gap: 8px;
+      transition: background var(--hub-speed), color var(--hub-speed);
+    }
+    .hub-sec-btn:hover { background: var(--hub-navy-light); }
+    .hub-sec-btn[aria-expanded="true"] { background: var(--hub-navy); color: #fff; }
+    .hub-sec-btn:focus-visible, .hub-con-btn:focus-visible { outline: 2px solid var(--hub-hover); outline-offset: 2px; }
+
+    .hub-caret { width: 14px; height: 14px; flex-shrink: 0; transition: transform var(--hub-speed); }
+    .hub-sec-btn[aria-expanded="true"] .hub-caret { transform: rotate(90deg); }
+
+    .hub-concepts { margin: 4px 0 6px 16px; padding-left: 12px; border-left: 2px solid var(--hub-border); display: flex; flex-direction: column; gap: 1px; }
+
+    .hub-con-btn {
+      border: none; border-radius: 8px; background: transparent;
+      color: var(--hub-text-sec); text-align: left; padding: 9px 10px;
+      font: 500 12.5px/1.45 "Inter", sans-serif; cursor: pointer;
+      transition: background var(--hub-speed), color var(--hub-speed);
+    }
+    .hub-con-btn:hover { background: var(--hub-navy-faint); color: var(--hub-text); }
+    .hub-con-btn[aria-pressed="true"] { background: var(--hub-navy-light); color: var(--hub-navy); font-weight: 600; }
+
+    .hub-reading { padding: 28px 32px 32px; }
+    .hub-kicker { font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--hub-navy); margin-bottom: 6px; }
+    .hub-title { font-size: clamp(22px, 2.4vw, 32px); font-weight: 700; line-height: 1.18; letter-spacing: -0.015em; color: var(--hub-text); }
+    .hub-bar { width: 40px; height: 3px; background: var(--hub-navy); border-radius: 2px; margin: 12px 0 24px; }
+
+    .hub-img-wrap { width: 100%; max-width: 560px; border-radius: var(--hub-radius); overflow: hidden; border: 1px solid var(--hub-border); margin-bottom: 24px; }
+    .hub-img-wrap img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+    .hub-img-wrap figcaption { padding: 8px 14px; font-size: 11.5px; line-height: 1.5; color: var(--hub-text-sec); background: var(--hub-bg); border-top: 1px solid var(--hub-border); }
+
+    .hub-body { display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; }
+    .hub-body p { font-size: 15px; line-height: 1.68; color: var(--hub-text-sec); }
+
+    .hub-points { border: 1px solid var(--hub-border); border-radius: var(--hub-radius); background: var(--hub-bg); padding: 16px 20px; }
+    .hub-points-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--hub-text-sec); margin-bottom: 12px; }
+    .hub-points-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .hub-points-list li { display: flex; align-items: baseline; gap: 10px; font-size: 13.5px; line-height: 1.5; color: var(--hub-text); }
+    .hub-num { width: 22px; height: 22px; border-radius: 50%; background: var(--hub-navy-light); color: var(--hub-navy); font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+    .hub-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+
+    @media (max-width: 960px) { .hub-module { grid-template-columns: 260px 1fr; } .hub-reading { padding: 24px; } }
+    @media (max-width: 768px) { .hub-shell { padding: 10px; } .hub-module { grid-template-columns: 1fr; } .hub-nav { border-right: none; border-bottom: 1px solid var(--hub-border); padding: 16px 12px; } .hub-reading { padding: 20px 16px 24px; } .hub-title { font-size: 22px; } .hub-img-wrap { max-width: 100%; } }
+    @media (max-width: 480px) { .hub-shell { padding: 6px; } .hub-module { border-radius: 10px; } .hub-reading { padding: 16px 14px 20px; } .hub-body p { font-size: 14px; } .hub-points-list li { font-size: 13px; } }
+  </style>
+</head>
+<body>
+  <main class="hub-shell">
+    <h1 class="hub-sr">AI in Supply Chain and Information Systems</h1>
+    <div class="hub-module">
+      <nav class="hub-nav" aria-label="Sections">
+        <p class="hub-nav-label">AI in Supply Chain & IS</p>
+        <div id="nav"></div>
+      </nav>
+      <article class="hub-reading" aria-live="polite" id="reading"></article>
+    </div>
+  </main>
+
+  <script>
+    const IMAGES = {
+      "where-ai-appears":    "https://raw.githubusercontent.com/andysalvo/applied-ai-club/main/modules/images/sc-section1-where-ai-appears.jpg",
+      "what-ai-helps-with":  "https://raw.githubusercontent.com/andysalvo/applied-ai-club/main/modules/images/sc-section2-what-ai-helps-with.jpg",
+      "where-ai-falls-short":"https://raw.githubusercontent.com/andysalvo/applied-ai-club/main/modules/images/sc-section3-where-ai-falls-short.jpg",
+      "what-to-keep-in-mind":"https://raw.githubusercontent.com/andysalvo/applied-ai-club/main/modules/images/sc-section4-what-to-keep-in-mind.jpg"
+    };
+
+    const CAPTIONS = {
+      "where-ai-appears":    "AI surfaces where data and technology integrate with the flow of goods across global networks.",
+      "what-ai-helps-with":  "AI is expected to improve forecasting, optimization, and monitoring across supply chain operations.",
+      "where-ai-falls-short":"Supply chains face structural uncertainty that no model can fully capture or eliminate.",
+      "what-to-keep-in-mind":"Integration, governance, and resilience shape how AI is evaluated in this discipline."
+    };
+
+    const DATA = {sections:[
+      {id:"where-ai-appears",title:"Where AI Appears",concepts:[
+        {id:"network-planning",title:"End-to-End Network Planning and Coordination",paragraphs:["In Supply Chain and Information Systems, AI appears where firms coordinate sourcing, production, transportation, and fulfillment across interconnected networks. Students see this in supply chain strategy and systems courses that connect physical flows with information architecture.","Organizations use AI-supported planning tools to evaluate network constraints, model service-risk tradeoffs, and synchronize decisions across functions that historically operated in silos.","For undergraduates, this topic demonstrates that supply chains are information systems as much as logistics systems. Coordination quality depends on both process design and shared data visibility.","For professors, network-level AI cases offer a strong framework for teaching systems thinking, where analytical outputs are assessed against operational feasibility and organizational alignment."],keyPoints:["AI in SCIS frequently appears in cross-functional network planning decisions.","Information quality and process alignment determine coordination outcomes.","Students should evaluate both analytical insight and operational feasibility."]},
+        {id:"demand-planning",title:"Demand Planning and S&OP Analytics",paragraphs:["AI is also central in demand planning and Sales and Operations Planning (S&OP), where teams align forecasts with procurement, production, and distribution decisions.","In practice, organizations use AI to process historical demand patterns, market indicators, and promotional signals to improve forecast granularity and planning cadence.","For undergraduates, this shows that forecasting is not only a technical task but a coordination mechanism that links commercial assumptions to operational execution.","For professors, S&OP analytics provides rich material for teaching forecast bias, assumption discipline, and how organizational incentives influence planning quality."],keyPoints:["AI supports more granular and frequent demand-planning cycles.","Forecast value depends on assumption quality and cross-functional use.","Planning systems must connect analytics to executable decisions."]},
+        {id:"inventory-logistics",title:"Inventory, Logistics, and Transport Optimization",paragraphs:["Within SCIS, AI appears in inventory and logistics operations where organizations optimize stock levels, replenishment rules, and transportation routing under changing conditions.","AI-enabled systems help evaluate cost-service tradeoffs at scale by combining demand signals, capacity constraints, and lead-time variability across regions and channels.","For undergraduates, this clarifies that optimization outputs are context-dependent recommendations, not universal solutions. Policy constraints and service commitments still shape decisions.","For professors, logistics optimization is a practical context for teaching model assumptions, objective-function design, and the managerial implications of optimization tradeoffs."],keyPoints:["AI can improve routing and inventory decisions in dynamic environments.","Cost-service outcomes depend on objective design and operational constraints.","Optimization should be interpreted within business policy and risk context."]},
+        {id:"supplier-risk",title:"Supplier Risk and Multi-Tier Visibility",paragraphs:["AI appears in supplier and resilience management where firms monitor disruptions, assess supplier risk, and improve visibility beyond first-tier partners.","Organizations use analytics to detect anomaly signals in delivery performance, quality variance, geopolitical exposure, and upstream dependency concentration.","For undergraduates, this highlights that resilience depends on data-sharing quality and governance across partners, not only internal forecasting accuracy.","For professors, supplier-risk analytics supports advanced instruction on vulnerability mapping, resilience metrics, and how information systems shape risk response capability."],keyPoints:["AI supports earlier disruption detection in supplier ecosystems.","Multi-tier visibility is essential for resilient supply network decisions.","Governance and partner data standards affect risk-monitoring quality."]}
+      ]},
+      {id:"what-ai-helps-with",title:"What AI Helps With",concepts:[
+        {id:"forecasting-alignment",title:"Improve Forecasting and Plan Alignment",paragraphs:["A core expectation in SCIS is that AI improves forecast accuracy and helps align procurement, production, and distribution plans around shared assumptions.","Teams expect AI systems to surface demand shifts earlier and reduce planning latency so operational decisions can adapt before costs and service failures escalate.","For undergraduates, this emphasizes that better forecasting creates value only when planning decisions actually change in response to new signals.","For professors, this concept supports teaching on forecast consumption, bias correction, and how planning governance affects whether analytical gains are realized."],keyPoints:["AI is expected to improve demand-signal quality and planning responsiveness.","Forecast improvements must translate into changed operational decisions.","Governance determines whether forecasting gains become business value."]},
+        {id:"optimize-decisions",title:"Optimize Inventory, Routing, and Allocation Decisions",paragraphs:["Another expectation is that AI can optimize inventory positioning, transportation routing, and allocation choices across complex networks with competing constraints.","SCIS teams use these tools to evaluate multiple decision paths quickly and identify strategies that balance cost efficiency with service-level commitments.","For undergraduates, this shows that optimization is a decision-support process requiring clear objectives and constraint definitions, not merely automated math.","For professors, optimization cases provide strong teaching opportunities around model formulation, sensitivity analysis, and real-world policy tradeoffs."],keyPoints:["AI can accelerate large-scale optimization across supply chain decisions.","Outcome quality depends on objective clarity and realistic constraints.","Optimization should be stress-tested before operational rollout."]},
+        {id:"monitoring-anomaly",title:"Enable Real-Time Monitoring and Anomaly Response",paragraphs:["SCIS programs also expect AI to support real-time monitoring by detecting anomalies in fulfillment, supplier performance, inventory flow, and logistics execution.","Instead of relying only on periodic reports, organizations use AI-driven alerting to identify performance deviations sooner and prioritize response actions.","For undergraduates, this highlights that monitoring value depends on response design: alerts are useful only when escalation paths and decision authority are clear.","For professors, anomaly-response scenarios support applied teaching on control systems, alert fatigue risk, and intervention prioritization under operational pressure."],keyPoints:["AI is expected to reduce response latency through continuous monitoring.","Alert systems require clear ownership and escalation mechanisms.","Monitoring effectiveness depends on intervention discipline."]},
+        {id:"tradeoff-analysis",title:"Support Tradeoff Analysis for Managers",paragraphs:["A broader expectation is that AI improves managerial tradeoff analysis by presenting clearer implications across cost, service, resilience, and capacity dimensions.","SCIS professionals use decision-support outputs to compare scenarios and communicate consequences to stakeholders across operations, finance, and commercial teams.","For undergraduates, this reinforces that AI does not remove managerial judgment; it expands the evidence base available for difficult cross-functional choices.","For professors, tradeoff-analysis cases are useful for teaching decision quality criteria, transparency standards, and cross-functional communication in analytics-driven environments."],keyPoints:["AI is expected to improve visibility into multi-objective tradeoffs.","Managerial judgment remains central in selecting among scenarios.","Decision support must be interpretable across stakeholder groups."]}
+      ]},
+      {id:"where-ai-falls-short",title:"Where AI Falls Short",concepts:[
+        {id:"structural-uncertainty",title:"AI Cannot Eliminate Structural Uncertainty",paragraphs:["A common misconception is that AI can remove supply chain uncertainty. In reality, SCIS environments face structural volatility from geopolitical events, regulation, weather shocks, and demand regime changes.","Models built on historical data can underperform when conditions shift abruptly or when unprecedented disruptions alter system behavior.","For undergraduates, this clarifies that uncertainty management is a strategic discipline, not a prediction contest. Robustness and adaptability remain critical.","For professors, this concept supports instruction on model fragility, scenario stress design, and resilience planning under deep uncertainty."],keyPoints:["AI improves signal processing but cannot remove external uncertainty.","Historical patterns may break under structural disruption.","Resilience design remains essential in SCIS decision frameworks."]},
+        {id:"not-autonomous",title:"Recommendations Are Not Autonomous Decisions",paragraphs:["Another oversimplification is assuming AI recommendations can be executed automatically without context. SCIS decisions are constrained by contracts, service commitments, regulations, and strategic priorities.","Even high-quality recommendations require human interpretation, stakeholder alignment, and policy checks before implementation.","For undergraduates, this shows that professional value lies in translation between analytical output and operationally feasible decisions.","For professors, this topic helps reinforce governance-oriented teaching where automation is treated as support to accountable management rather than a substitute for it."],keyPoints:["AI outputs are recommendations, not independent executive authority.","Operational and contractual constraints shape feasible actions.","Human accountability remains central in implementation decisions."]},
+        {id:"complexity-trust",title:"Complexity Can Reduce Explainability and Trust",paragraphs:["There is also a tendency to assume more complex models are always better. In SCIS practice, excessive complexity can reduce interpretability and weaken stakeholder trust in outputs.","When decision logic is unclear, adoption can decline and governance risk can increase, particularly in regulated or partner-facing supply processes.","For undergraduates, this emphasizes that model selection should consider explainability, communication needs, and decision context alongside predictive performance.","For professors, this creates a valuable framework for teaching performance-interpretability tradeoffs and transparency standards in operational analytics."],keyPoints:["Higher model complexity does not guarantee better business decisions.","Explainability is necessary for adoption and accountable governance.","Model choice should balance accuracy, transparency, and use context."]},
+        {id:"data-quality",title:"Data Quality and Interoperability Limit Results",paragraphs:["AI outcomes in SCIS are often constrained by fragmented data standards across internal systems and external partners. Inconsistent data can distort recommendations.","Without strong interoperability and governance protocols, even sophisticated analytics can produce unreliable or misleading outputs.","For undergraduates, this demonstrates that data engineering and standards alignment are strategic capabilities in supply chain performance improvement.","For professors, interoperability challenges offer realistic case settings for teaching system integration, data contracts, and multi-party information governance."],keyPoints:["Data quality and partner interoperability strongly affect AI reliability.","Weak information standards can propagate error across decisions.","SCIS performance depends on disciplined data architecture."]}
+      ]},
+      {id:"what-to-keep-in-mind",title:"What to Keep in Mind",concepts:[
+        {id:"systems-integration",title:"Enterprise Systems Integration and Process Fit",paragraphs:["A central SCIS consideration is integration: AI capabilities must fit ERP, planning, and execution systems that coordinate physical and information flows.","Poor integration can create fragmented decision signals and reduce cross-functional coordination, even when analytical models are strong.","For undergraduates, this highlights that systems fit is a business issue as much as a technical one. Adoption depends on workflow compatibility.","For professors, integration-focused projects help students evaluate architecture choices, process dependencies, and implementation sequencing in enterprise environments."],keyPoints:["AI value in SCIS depends on enterprise system and workflow integration.","Process fit determines whether insights become executable action.","Architecture and operations design must be aligned."]},
+        {id:"data-governance",title:"Data Governance and Partner Information Standards",paragraphs:["SCIS involves multi-party ecosystems, so governance and shared data standards are fundamental to reliable analytics across suppliers, logistics providers, and internal units.","Organizations need clear ownership, lineage controls, and protocol consistency to maintain trust in system outputs over time.","For undergraduates, this means governance literacy is part of core professional readiness in supply chain analytics roles.","For professors, partner-data standards provide practical teaching contexts for information stewardship, platform governance, and inter-organizational coordination."],keyPoints:["Shared standards are required for reliable cross-partner analytics.","Governance controls preserve trust and consistency over time.","Stewardship capability is central to SCIS performance."]},
+        {id:"efficiency-resilience",title:"Efficiency vs Resilience Strategy Balance",paragraphs:["Another key SCIS consideration is balancing efficiency and resilience. AI models may favor leaner configurations, while strategy may require buffers for disruption tolerance.","This tension requires explicit decision frameworks that weigh cost targets against service continuity and risk exposure.","For undergraduates, this underscores that optimization goals are managerial choices, not purely technical outcomes.","For professors, this topic supports advanced instruction on multi-objective strategy design and resilience-aware performance management."],keyPoints:["AI recommendations should be evaluated against resilience objectives.","Cost efficiency and robustness often require explicit tradeoff decisions.","Strategy determines how optimization outputs are interpreted."]},
+        {id:"skills-readiness",title:"Skills for Students, Faculty, and SCIS Teams",paragraphs:["Preparing for AI-enabled SCIS work requires combined capability in analytics, operations, systems design, governance, and communication.","Professionals increasingly need to translate model outputs into process decisions that stakeholders across procurement, logistics, finance, and IT can trust and execute.","For undergraduates, this means building interdisciplinary fluency: ask stronger analytical questions, interpret uncertainty, and communicate implications clearly.","For professors, curriculum design can emphasize integrated projects where students practice decision support, governance reasoning, and cross-functional coordination under realistic constraints."],keyPoints:["SCIS-AI readiness combines technical, operational, and communication skills.","Translation across business and technical teams is a core capability.","Interdisciplinary training improves real-world decision quality."]}
+      ]}
+    ]};
+
+    let curSec = DATA.sections[0].id;
+    let curCon = DATA.sections[0].concepts[0].id;
+    const $nav = document.getElementById("nav");
+    const $reading = document.getElementById("reading");
+
+    function sec(id) { return DATA.sections.find(s => s.id === id); }
+    function con(s, id) { return s.concepts.find(c => c.id === id); }
+
+    function pick(secId) { if (curSec === secId) return; curSec = secId; curCon = sec(secId).concepts[0].id; render(); }
+    function pickCon(sId, cId) { curSec = sId; curCon = cId; render(); }
+
+    function renderNav() {
+      let h = "";
+      DATA.sections.forEach(s => {
+        const open = s.id === curSec;
+        h += '<button type="button" class="hub-sec-btn" aria-expanded="' + open + '" onclick="pick(\'' + s.id + '\')">' +
+             '<svg class="hub-caret" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6 3l5 5-5 5z"/></svg>' +
+             '<span>' + s.title + '</span></button>';
+        if (open) {
+          h += '<div class="hub-concepts">';
+          s.concepts.forEach(c => {
+            h += '<button type="button" class="hub-con-btn" aria-pressed="' + (c.id === curCon) + '" onclick="pickCon(\'' + s.id + "','" + c.id + '\')">' + c.title + '</button>';
+          });
+          h += '</div>';
+        }
+      });
+      $nav.innerHTML = h;
+    }
+
+    function renderReading() {
+      const s = sec(curSec); const c = con(s, curCon);
+      const img = IMAGES[s.id]; const cap = CAPTIONS[s.id];
+
+      let h = '<p class="hub-kicker">' + s.title + '</p>' +
+              '<h2 class="hub-title">' + c.title + '</h2>' +
+              '<div class="hub-bar" aria-hidden="true"></div>';
+
+      h += '<div class="hub-body">';
+      c.paragraphs.forEach(p => { h += '<p>' + p + '</p>'; });
+      h += '</div>';
+
+      if (img) {
+        h += '<figure class="hub-img-wrap"><img src="' + img + '" alt="' + s.title + '" loading="lazy" onerror="this.parentElement.style.display=\'none\'" />' +
+             '<figcaption>' + cap + '</figcaption></figure>';
+      }
+
+      h += '<div class="hub-points"><p class="hub-points-label">Key Points</p><ul class="hub-points-list">';
+      c.keyPoints.forEach((pt, i) => {
+        h += '<li><span class="hub-num" aria-hidden="true">' + (i+1) + '</span><span>' + pt + '</span></li>';
+      });
+      h += '</ul></div>';
+      $reading.innerHTML = h;
+    }
+
+    function render() { renderNav(); renderReading(); }
+    render();
+  </script>
+</body>
+</html>
