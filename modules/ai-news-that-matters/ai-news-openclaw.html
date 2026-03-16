@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI News: OpenClaw</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --hub-navy: #01458F;
+      --hub-navy-light: rgba(1, 69, 143, 0.08);
+      --hub-hover: #0C5BBF;
+      --hub-bg: #F7F9FC;
+      --hub-surface: #FFFFFF;
+      --hub-border: #E3E8F0;
+      --hub-text: #0B1F3B;
+      --hub-text-sec: #4B5D73;
+      --hub-radius: 12px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      background: var(--hub-bg);
+      color: var(--hub-text);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .news-shell { max-width: 720px; margin: 0 auto; padding: 32px 16px; }
+
+    .news-article {
+      background: var(--hub-surface);
+      border: 1px solid var(--hub-border);
+      border-radius: var(--hub-radius);
+      padding: 32px;
+    }
+
+    .news-headline {
+      font-size: clamp(22px, 3vw, 30px);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.015em;
+      color: var(--hub-text);
+      margin-bottom: 8px;
+    }
+
+    .news-meta { font-size: 13px; color: var(--hub-text-sec); margin-bottom: 24px; }
+
+    .news-lede {
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--hub-text);
+      font-weight: 500;
+      margin-bottom: 24px;
+    }
+
+    .news-body { display: flex; flex-direction: column; gap: 16px; }
+    .news-body p { font-size: 15px; line-height: 1.7; color: var(--hub-text-sec); }
+    .news-body strong { color: var(--hub-text); font-weight: 600; }
+
+    .news-callout {
+      border-left: 3px solid var(--hub-navy);
+      background: var(--hub-bg);
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 8px 0;
+    }
+
+    .news-callout p { font-size: 14px; line-height: 1.65; color: var(--hub-text); }
+
+    .news-sources { margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--hub-border); }
+    .news-sources-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--hub-text-sec); margin-bottom: 10px; }
+    .news-sources-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .news-sources-list li { font-size: 13px; line-height: 1.5; color: var(--hub-text-sec); }
+    .news-sources-list a { color: var(--hub-navy); text-decoration: none; }
+    .news-sources-list a:hover { text-decoration: underline; color: var(--hub-hover); }
+
+    @media (max-width: 600px) {
+      .news-shell { padding: 16px 10px; }
+      .news-article { padding: 24px 18px; }
+      .news-headline { font-size: 22px; }
+      .news-lede { font-size: 15px; }
+      .news-body p { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <article class="news-shell">
+    <div class="news-article">
+      <h1 class="news-headline">OpenClaw: How a Weekend Project Became the Fastest-Growing Open Source AI Agent in History</h1>
+      <p class="news-meta">November 2025 — March 2026</p>
+
+      <p class="news-lede">An Austrian developer built an AI assistant that runs on your own machine, works through the chat apps you already use, and hit 138,000 GitHub stars in under three months. Then OpenAI hired him.</p>
+
+      <div class="news-body">
+        <p>OpenClaw is an open-source AI agent platform created by Peter Steinberger. It started as a weekend project in November 2025 under the name "WhatsApp Relay." Within two months it had over 100,000 GitHub stars and attracted 2 million visitors in a single week. As of March 2026, the project has surpassed 138,000 stars.</p>
+
+        <p>Unlike standard chatbots, OpenClaw runs locally on the user's own hardware and connects to messaging platforms they already use. It supports WhatsApp, Telegram, Discord, Slack, Teams, Twitch, and Google Chat. It can perform autonomous actions: managing calendars, sorting emails, running system commands, sharing images, and coordinating tasks across applications.</p>
+
+        <div class="news-callout">
+          <p><strong>What makes it different?</strong> OpenClaw is not an AI model. It is an <strong>agentic harness</strong> -- a framework that enables AI agents to decompose goals into subtasks, connect to software tools, and maintain memory of their actions. It works with multiple underlying models and runs on user-controlled infrastructure. As Steinberger puts it: "Your assistant. Your machine. Your rules."</p>
+        </div>
+
+        <p>The project went through three names before landing on OpenClaw. The original name "Clawd" drew a legal challenge from Anthropic. It became "Moltbot" briefly, referencing the lobster's process of molting as a metaphor for growth. The red lobster mascot stuck, and the phrase "raise a lobster" became shorthand for setting up your own AI agent.</p>
+
+        <p><strong>The China phenomenon.</strong> In March 2026, OpenClaw adoption exploded in China. Nearly 1,000 people queued at Tencent's Shenzhen headquarters to install it. Major cloud providers -- Alibaba Cloud, Tencent Cloud, ByteDance's Volcano Engine, JD.com, and Baidu -- all launched their own OpenClaw-compatible products. Tencent branded its version "lobster special forces." Shenzhen's Longgang district offered up to 10 million yuan ($1.4 million) in subsidies for startup projects built on the platform. MiniMax stock surged 27% following the craze.</p>
+
+        <p>On February 14, 2026, Steinberger announced he was joining OpenAI and that the OpenClaw project would be transferred to an open-source foundation. The move signals that even the largest AI companies see agentic frameworks -- not just models -- as a critical part of the next phase of AI infrastructure.</p>
+
+        <p><strong>Why this matters for students.</strong> OpenClaw demonstrates a shift in how AI is deployed. The most-used AI tools today are cloud services accessed through a browser. OpenClaw runs locally, connects to existing tools, and acts on your behalf. It also shows that a single developer with a clear idea can create something that scales globally in weeks. For business students, the speed of adoption, the platform dynamics in China, and the open-source-to-acquisition pipeline are all worth studying. The technology itself is less important than the pattern: infrastructure that gives individuals access to agent-level AI capability was built by one person over a weekend.</p>
+      </div>
+
+      <div class="news-sources">
+        <p class="news-sources-label">Sources</p>
+        <ul class="news-sources-list">
+          <li><a href="https://openclaw.ai/blog/introducing-openclaw" target="_blank" rel="noopener">OpenClaw Blog: Introducing OpenClaw</a></li>
+          <li><a href="https://fortune.com/2026/03/14/openclaw-china-ai-agent-boom-open-source-lobster-craze-minimax-qwen/" target="_blank" rel="noopener">Fortune: How OpenClaw is transforming China's AI sector</a></li>
+          <li><a href="https://www.cnbc.com/2026/03/12/china-openclaw-ai-agent-adoption-tech-companies-government-support-lobster-shrimp.html" target="_blank" rel="noopener">CNBC: China's tech firms feast on OpenClaw</a></li>
+          <li><a href="https://www.technologyreview.com/2026/03/11/1134179/china-openclaw-gold-rush/" target="_blank" rel="noopener">MIT Technology Review: Hustlers are cashing in on China's OpenClaw craze</a></li>
+        </ul>
+      </div>
+    </div>
+  </article>
+</body>
+</html>

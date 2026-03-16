@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI News That Matters</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --hub-navy: #01458F;
+      --hub-navy-light: rgba(1, 69, 143, 0.08);
+      --hub-hover: #0C5BBF;
+      --hub-bg: #F7F9FC;
+      --hub-surface: #FFFFFF;
+      --hub-border: #E3E8F0;
+      --hub-text: #0B1F3B;
+      --hub-text-sec: #4B5D73;
+      --hub-radius: 12px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      background: var(--hub-bg);
+      color: var(--hub-text);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .news-shell {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* ── Article Card ── */
+    .news-article {
+      background: var(--hub-surface);
+      border: 1px solid var(--hub-border);
+      border-radius: var(--hub-radius);
+      padding: 32px;
+    }
+
+    .news-tag {
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--hub-navy);
+      background: var(--hub-navy-light);
+      padding: 4px 10px;
+      border-radius: 6px;
+      margin-bottom: 16px;
+    }
+
+    .news-headline {
+      font-size: clamp(22px, 3vw, 30px);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.015em;
+      color: var(--hub-text);
+      margin-bottom: 8px;
+    }
+
+    .news-meta {
+      font-size: 13px;
+      color: var(--hub-text-sec);
+      margin-bottom: 24px;
+    }
+
+    .news-lede {
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--hub-text);
+      font-weight: 500;
+      margin-bottom: 24px;
+    }
+
+    .news-body {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .news-body p {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--hub-text-sec);
+    }
+
+    .news-body strong {
+      color: var(--hub-text);
+      font-weight: 600;
+    }
+
+    /* ── Callout Box ── */
+    .news-callout {
+      border-left: 3px solid var(--hub-navy);
+      background: var(--hub-bg);
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 8px 0;
+    }
+
+    .news-callout p {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--hub-text);
+    }
+
+    /* ── Sources ── */
+    .news-sources {
+      margin-top: 28px;
+      padding-top: 20px;
+      border-top: 1px solid var(--hub-border);
+    }
+
+    .news-sources-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--hub-text-sec);
+      margin-bottom: 10px;
+    }
+
+    .news-sources-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .news-sources-list li {
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--hub-text-sec);
+    }
+
+    .news-sources-list a {
+      color: var(--hub-navy);
+      text-decoration: none;
+    }
+
+    .news-sources-list a:hover {
+      text-decoration: underline;
+      color: var(--hub-hover);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .news-shell { padding: 16px 10px; }
+      .news-article { padding: 24px 18px; }
+      .news-headline { font-size: 22px; }
+      .news-lede { font-size: 15px; }
+      .news-body p { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <article class="news-shell">
+    <div class="news-article">
+      <h1 class="news-headline">Yann LeCun's AMI Labs Raises $1B to Build AI That Learns From the Physical World</h1>
+      <p class="news-meta">March 2026</p>
+
+      <p class="news-lede">The Turing Award winner left Meta to bet against the technology that powers ChatGPT. His startup just raised the largest seed round ever recorded for a European company.</p>
+
+      <div class="news-body">
+        <p>AMI Labs announced a $1.03 billion seed round on March 10, 2026, at a $3.5 billion pre-money valuation. The company was founded by Yann LeCun, who spent over a decade as Meta's Chief AI Scientist and is one of three researchers credited with pioneering deep learning.</p>
+
+        <p>The startup is building what it calls <strong>world models</strong>. Where large language models learn by predicting the next word in a sequence of text, world models learn by processing data from cameras, sensors, and physical environments. The goal is AI that can predict the consequences of actions, reason about cause and effect, and plan in real-world settings. AMI's website states the company will avoid the generative approaches associated with transformer architectures, instead building neural networks based on new architectures.</p>
+
+        <div class="news-callout">
+          <p><strong>What is JEPA?</strong> AMI's approach is built on Joint Embedding Predictive Architecture, a framework LeCun developed at Meta. Large language models treat every piece of input as equally important and predict at the level of individual tokens. JEPA takes a different approach: it stores higher-level representations rather than pixel-by-pixel or token-by-token data, and predicts in a compressed latent space. The core idea is that real-world sensors contain enormous amounts of unpredictable noise. Rather than modeling that noise, JEPA learns compact representations of what matters and how actions change environments.</p>
+        </div>
+
+        <p>The round was co-led by Cathay Innovation, Greycroft, Hiro Capital, HV Capital, and Bezos Expeditions, with participation from Nvidia and Samsung Electronics. Individual backers include Jeff Bezos, Mark Cuban, Eric Schmidt, and Tim Berners-Lee.</p>
+
+        <p>LeCun has been publicly critical of the dominant approach in AI for several years. He has argued that large language models cannot achieve genuine understanding because they learn only from text, which represents a narrow slice of how the world works. AMI is his attempt to prove a different architecture can do better. CEO Alex LeBrun has said he expects "world models" to become the next major category in AI, predicting that "in six months, every company will call itself a world model to raise funding."</p>
+
+        <p>The leadership team includes LeBrun as CEO, Laurent Solly (formerly Meta's VP for Europe) as COO, Saining Xie as Chief Science Officer, and Pascale Fung as Chief Research and Innovation Officer. The company has offices in Paris and Zurich, with a European focus. LeCun has stated that AMI plans to release models quickly while open-sourcing its technology and publishing academic papers.</p>
+
+        <p><strong>Why this matters for students.</strong> Most AI tools that students encounter today are built on large language models. AMI represents a serious, well-funded challenge to that approach from one of the field's most credible researchers. Whether world models succeed or not, the debate is worth understanding. It shows that the field is not settled, and that the next generation of AI systems may work very differently from the ones students use now.</p>
+      </div>
+
+      <div class="news-sources">
+        <p class="news-sources-label">Sources</p>
+        <ul class="news-sources-list">
+          <li><a href="https://techcrunch.com/2026/03/09/yann-lecuns-ami-labs-raises-1-03-billion-to-build-world-models/" target="_blank" rel="noopener">TechCrunch: AMI Labs raises $1.03B to build world models</a></li>
+          <li><a href="https://www.technologyreview.com/2026/01/22/1131661/yann-lecuns-new-venture-ami-labs/" target="_blank" rel="noopener">MIT Technology Review: LeCun's contrarian bet against LLMs</a></li>
+          <li><a href="https://siliconangle.com/2026/03/10/yann-lecuns-new-startup-ami-labs-raises-1-03b-train-world-models/" target="_blank" rel="noopener">SiliconANGLE: AMI Labs raises $1.03B to train world models</a></li>
+          <li><a href="https://www.latent.space/p/ainews-yann-lecuns-ami-labs-launches" target="_blank" rel="noopener">Latent Space: AMI Labs launches with $1B seed</a></li>
+        </ul>
+      </div>
+    </div>
+  </article>
+</body>
+</html>
