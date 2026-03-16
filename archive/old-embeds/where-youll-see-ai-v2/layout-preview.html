@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Where You'll See AI v2 - Layout Preview</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 24px;
+        font-family: Inter, "Segoe UI", Arial, sans-serif;
+        background: #f2f4f8;
+        color: #0a2e63;
+      }
+      .wrap {
+        max-width: 1180px;
+        margin: 0 auto;
+      }
+      h1 {
+        margin: 0 0 6px;
+        font-size: 2rem;
+      }
+      .sub {
+        margin: 0 0 18px;
+        color: #355d95;
+      }
+      .grid {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: 1.35fr 1fr;
+      }
+      .support-col {
+        display: grid;
+        gap: 16px;
+      }
+      iframe {
+        width: 100%;
+        border: 0;
+        border-radius: 12px;
+        background: transparent;
+      }
+      .featured { height: 410px; }
+      .support { height: 330px; }
+      .context { height: 380px; margin-top: 16px; }
+      @media (max-width: 980px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .featured { height: 470px; }
+        .support { height: 380px; }
+        .context { height: 500px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Where You'll See AI in Accounting</h1>
+      <p class="sub">v2 modular composition preview (asymmetric 1+3 + context)</p>
+
+      <section class="grid" aria-label="Top embed composition">
+        <iframe class="featured" src="01-featured-auditing.html" title="Featured Auditing"></iframe>
+        <div class="support-col">
+          <iframe class="support" src="02-support-financial-reporting.html" title="Financial Reporting"></iframe>
+          <iframe class="support" src="03-support-tax-compliance.html" title="Tax and Compliance"></iframe>
+          <iframe class="support" src="04-support-internal-controls.html" title="Internal Controls"></iframe>
+        </div>
+      </section>
+
+      <iframe class="context" src="05-context-takeaways.html" title="Context and Takeaways"></iframe>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>What to Keep in Mind</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --aihub-primary: #01458F;
+      --aihub-hover: #0C5BBF;
+      --aihub-white: #FFFFFF;
+      --aihub-light-bg: #F7F9FC;
+      --aihub-border: #E3E8F0;
+      --aihub-text-primary: #0B1F3B;
+      --aihub-text-secondary: #4B5D73;
+      --aihub-accent: #6F56C6;
+      --aihub-accent-soft: rgba(111, 86, 198, 0.08);
+      --aihub-accent-border: rgba(111, 86, 198, 0.32);
+      --aihub-shell-height: 900px;
+      --aihub-shell-height-mobile: 1080px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--aihub-light-bg);
+      color: var(--aihub-text-primary);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    html.aihub-no-inter body { letter-spacing: 0.002em; }
+    html.aihub-no-inter .aihub-title { font-weight: 680; letter-spacing: -0.004em; }
+
+    .aihub-shell {
+      max-width: 1120px;
+      height: var(--aihub-shell-height);
+      margin: 0 auto;
+      padding: 32px;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 24px;
+      overflow: hidden;
+    }
+
+    .aihub-head {
+      display: grid;
+      gap: 12px;
+    }
+
+    .aihub-section-label {
+      margin: 0;
+      width: fit-content;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--aihub-accent-border);
+      color: var(--aihub-primary);
+      font-size: 12px;
+      line-height: 1.3;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .aihub-title {
+      margin: 0;
+      font-size: clamp(40px, 4.2vw, 44px);
+      line-height: 1.2;
+      letter-spacing: -0.012em;
+      font-weight: 700;
+      color: var(--aihub-text-primary);
+    }
+
+    .aihub-subtitle {
+      margin: 0;
+      max-width: 86ch;
+      font-size: 18px;
+      line-height: 1.58;
+      color: var(--aihub-text-secondary);
+      font-weight: 400;
+    }
+
+    .aihub-stage {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(320px, 45%) minmax(0, 55%);
+      gap: 24px;
+      padding: 24px;
+      border: 1px solid var(--aihub-border);
+      border-radius: 8px;
+      background: var(--aihub-white);
+    }
+
+    .aihub-left {
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 12px;
+    }
+
+    .aihub-left-title {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 600;
+      color: var(--aihub-text-secondary);
+      letter-spacing: 0.01em;
+    }
+
+    .aihub-hint {
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.4;
+      font-weight: 500;
+      color: var(--aihub-text-secondary);
+    }
+
+    .aihub-map {
+      min-height: 0;
+      position: relative;
+      border: 1px solid var(--aihub-border);
+      border-radius: 6px;
+      background: var(--aihub-white);
+      overflow: hidden;
+    }
+
+    .aihub-map-note {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.42;
+      color: var(--aihub-text-secondary);
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .aihub-map-note-top { top: 12px; }
+    .aihub-map-note-bottom { bottom: 12px; }
+
+    .aihub-map-line {
+      stroke: rgba(111, 86, 198, 0.22);
+      stroke-width: 1.5;
+      transition: stroke 180ms ease, stroke-width 180ms ease;
+    }
+
+    .aihub-map-center {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 184px;
+      min-height: 72px;
+      margin: 0;
+      padding: 12px;
+      border: 1px solid var(--aihub-border);
+      border-radius: 6px;
+      background: #FCFBFF;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      font-size: 13px;
+      line-height: 1.45;
+      color: var(--aihub-text-secondary);
+      font-weight: 500;
+    }
+
+    .aihub-factor {
+      position: absolute;
+      min-height: 42px;
+      border: 1px solid var(--aihub-border);
+      border-radius: 6px;
+      background: var(--aihub-white);
+      color: var(--aihub-text-primary);
+      font-size: 14px;
+      line-height: 1.35;
+      font-weight: 500;
+      padding: 12px;
+      cursor: pointer;
+      transition: border-color 180ms ease, background 180ms ease, color 180ms ease;
+    }
+
+    .aihub-factor:hover {
+      border-color: var(--aihub-hover);
+      color: var(--aihub-hover);
+    }
+
+    .aihub-factor:focus-visible {
+      outline: 3px solid rgba(111, 86, 198, 0.28);
+      outline-offset: 1px;
+      border-color: var(--aihub-accent);
+    }
+
+    .aihub-factor-active {
+      border-color: var(--aihub-accent);
+      background: var(--aihub-accent-soft);
+      color: var(--aihub-text-primary);
+    }
+
+    .aihub-factor[data-aihub-item="datasets"] { left: 6%; top: 20%; }
+    .aihub-factor[data-aihub-item="consistency"] { right: 5%; top: 20%; }
+    .aihub-factor[data-aihub-item="anomaly"] { left: 8%; bottom: 20%; }
+    .aihub-factor[data-aihub-item="interpretation"] { right: 4%; bottom: 20%; }
+
+    .aihub-reading {
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 12px;
+      padding: 24px;
+      border: 1px solid var(--aihub-border);
+      border-left: 3px solid var(--aihub-accent);
+      border-radius: 6px;
+      background: #FBFCFF;
+    }
+
+    .aihub-panel-meta {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 500;
+      color: var(--aihub-text-secondary);
+    }
+
+    .aihub-reading-scroll {
+      min-height: 0;
+      overflow: auto;
+      padding-right: 12px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .aihub-entry {
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--aihub-border);
+    }
+
+    .aihub-entry:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .aihub-panel-title {
+      margin: 0 0 12px;
+      font-size: 28px;
+      line-height: 1.22;
+      letter-spacing: -0.01em;
+      font-weight: 600;
+      color: var(--aihub-text-primary);
+    }
+
+    .aihub-context {
+      margin: 0 0 12px;
+      font-size: 16px;
+      line-height: 1.6;
+      font-weight: 500;
+      color: var(--aihub-text-primary);
+    }
+
+    .aihub-entry p {
+      margin: 0 0 12px;
+      font-size: 15px;
+      line-height: 1.63;
+      color: var(--aihub-text-secondary);
+    }
+
+    .aihub-entry p:last-of-type { margin-bottom: 0; }
+
+    .aihub-boundary {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--aihub-accent-border);
+      font-size: 14px;
+      line-height: 1.58;
+      font-weight: 500;
+      color: var(--aihub-text-primary);
+    }
+
+    .aihub-shell.aihub-enhanced .aihub-entry {
+      display: none;
+      border-bottom: 0;
+      padding-bottom: 0;
+      animation: aihubFadeSlide 180ms ease;
+    }
+
+    .aihub-shell.aihub-enhanced .aihub-entry[data-aihub-active="true"] {
+      display: block;
+    }
+
+    .aihub-sr {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @keyframes aihubFadeSlide {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 900px) {
+      .aihub-shell {
+        height: var(--aihub-shell-height-mobile);
+        padding: 24px;
+      }
+
+      .aihub-stage {
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(350px, 44%) minmax(0, 56%);
+      }
+    }
+
+    @media (max-width: 620px) {
+      .aihub-shell {
+        padding: 16px;
+        gap: 16px;
+      }
+
+      .aihub-stage {
+        gap: 16px;
+        padding: 16px;
+      }
+
+      .aihub-title { font-size: clamp(34px, 9.3vw, 40px); }
+      .aihub-subtitle { font-size: 16px; }
+
+      .aihub-map-center {
+        width: 132px;
+        min-height: 66px;
+        font-size: 12px;
+      }
+
+      .aihub-factor {
+        font-size: 13px;
+        padding: 12px;
+      }
+
+      .aihub-reading { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="aihub-shell" data-aihub-section="section4">
+    <header class="aihub-head">
+      <p class="aihub-section-label">What to Keep in Mind</p>
+      <h1 class="aihub-title">What to Keep in Mind</h1>
+      <p class="aihub-subtitle">In accounting, useful automation signals and caution signals appear together. These principles clarify where AI support is practical and where professional interpretation remains central.</p>
+    </header>
+
+    <section class="aihub-stage" aria-label="What to keep in mind for AI in accounting">
+      <div class="aihub-left">
+        <p class="aihub-left-title">Guidance principles for course and practice contexts</p>
+        <p class="aihub-hint">Start anywhere.</p>
+
+        <div class="aihub-map" aria-label="Guidance principles map">
+          <p class="aihub-map-note aihub-map-note-top">Useful signals: high volume and repeated checks.</p>
+          <p class="aihub-map-note aihub-map-note-bottom">Care signals: interpretation, documentation, oversight.</p>
+
+          <svg viewBox="0 0 100 100" width="100%" height="100%" aria-hidden="true" style="position:absolute; inset:0;">
+            <line id="aihub-link-datasets" class="aihub-map-line" x1="50" y1="50" x2="20" y2="30"></line>
+            <line id="aihub-link-consistency" class="aihub-map-line" x1="50" y1="50" x2="80" y2="30"></line>
+            <line id="aihub-link-anomaly" class="aihub-map-line" x1="50" y1="50" x2="22" y2="70"></line>
+            <line id="aihub-link-interpretation" class="aihub-map-line" x1="50" y1="50" x2="78" y2="70"></line>
+          </svg>
+
+          <p class="aihub-map-center">Accounting conclusions require evidence and judgment</p>
+
+          <button class="aihub-factor" type="button" data-aihub-item="datasets" aria-pressed="true">Large datasets</button>
+          <button class="aihub-factor" type="button" data-aihub-item="consistency" aria-pressed="false">Consistency checks</button>
+          <button class="aihub-factor" type="button" data-aihub-item="anomaly" aria-pressed="false">Anomaly detection</button>
+          <button class="aihub-factor" type="button" data-aihub-item="interpretation" aria-pressed="false">Human interpretation</button>
+        </div>
+      </div>
+
+      <aside class="aihub-reading" aria-live="polite">
+        <p class="aihub-panel-meta" id="aihub-selected-meta">Selected: Large datasets</p>
+
+        <div class="aihub-reading-scroll">
+          <article class="aihub-entry" data-aihub-entry="datasets" data-aihub-active="true">
+            <h2 class="aihub-panel-title">Large datasets</h2>
+            <p class="aihub-context">AI discussions usually increase when transaction volume exceeds practical manual review capacity.</p>
+            <p>Professional accounting work often includes continuous streams of records across many accounts and entities.</p>
+            <p>In those conditions, automation is discussed as a way to maintain broader first-pass coverage.</p>
+            <p>This is one reason AI appears often in audit, reporting, and compliance conversations.</p>
+            <p class="aihub-boundary">Broader coverage does not change who is accountable for interpretation and sign-off.</p>
+          </article>
+
+          <article class="aihub-entry" data-aihub-entry="consistency" data-aihub-active="false">
+            <h2 class="aihub-panel-title">Consistency checks</h2>
+            <p class="aihub-context">Accounting quality depends on consistent checks across systems, periods, and records.</p>
+            <p>Repeated controls are central in reconciliation and reporting workflows where mismatch detection must be reliable.</p>
+            <p>AI is commonly discussed as support for applying those checks more uniformly at scale.</p>
+            <p>The emphasis remains accuracy and consistency, not independent decision-making.</p>
+            <p class="aihub-boundary">Reviewers still verify outputs and document reasoning before conclusions are accepted.</p>
+          </article>
+
+          <article class="aihub-entry" data-aihub-entry="anomaly" data-aihub-active="false">
+            <h2 class="aihub-panel-title">Anomaly detection</h2>
+            <p class="aihub-context">Exception signals help teams focus limited review time where deeper investigation may be needed.</p>
+            <p>In large transaction populations, unusual patterns can remain hidden unless review support surfaces them early.</p>
+            <p>AI is therefore discussed as triage support that organizes attention toward potentially important items.</p>
+            <p>This improves review direction, but not the basis for final accounting conclusions.</p>
+            <p class="aihub-boundary">Anomalies require follow-up evidence and professional interpretation before action.</p>
+          </article>
+
+          <article class="aihub-entry" data-aihub-entry="interpretation" data-aihub-active="false">
+            <h2 class="aihub-panel-title">Human interpretation</h2>
+            <p class="aihub-context">Standards interpretation and materiality assessment remain core accounting responsibilities.</p>
+            <p>Even when analysis is automated, conclusions still need rationale that can be explained and documented.</p>
+            <p>This is especially important for classification, valuation, disclosure, and compliance judgments.</p>
+            <p>Accounting practice requires transparent reasoning, not only efficient processing.</p>
+            <p class="aihub-boundary">Automation supports workflow execution, while professionals retain decision authority.</p>
+          </article>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script>
+    const AIHUB_ENABLE_POSTMESSAGE = false;
+
+    const AIHUB_ITEMS = [
+      {
+        id: "datasets",
+        label: "Large datasets",
+        contextLine: "AI discussions usually increase when transaction volume exceeds practical manual review capacity.",
+        explanation: [
+          "Professional accounting work often includes continuous streams of records across many accounts and entities.",
+          "In those conditions, automation is discussed as a way to maintain broader first-pass coverage.",
+          "This is one reason AI appears often in audit, reporting, and compliance conversations."
+        ],
+        boundaryLine: "Broader coverage does not change who is accountable for interpretation and sign-off."
+      },
+      {
+        id: "consistency",
+        label: "Consistency checks",
+        contextLine: "Accounting quality depends on consistent checks across systems, periods, and records.",
+        explanation: [
+          "Repeated controls are central in reconciliation and reporting workflows where mismatch detection must be reliable.",
+          "AI is commonly discussed as support for applying those checks more uniformly at scale.",
+          "The emphasis remains accuracy and consistency, not independent decision-making."
+        ],
+        boundaryLine: "Reviewers still verify outputs and document reasoning before conclusions are accepted."
+      },
+      {
+        id: "anomaly",
+        label: "Anomaly detection",
+        contextLine: "Exception signals help teams focus limited review time where deeper investigation may be needed.",
+        explanation: [
+          "In large transaction populations, unusual patterns can remain hidden unless review support surfaces them early.",
+          "AI is therefore discussed as triage support that organizes attention toward potentially important items.",
+          "This improves review direction, but not the basis for final accounting conclusions."
+        ],
+        boundaryLine: "Anomalies require follow-up evidence and professional interpretation before action."
+      },
+      {
+        id: "interpretation",
+        label: "Human interpretation",
+        contextLine: "Standards interpretation and materiality assessment remain core accounting responsibilities.",
+        explanation: [
+          "Even when analysis is automated, conclusions still need rationale that can be explained and documented.",
+          "This is especially important for classification, valuation, disclosure, and compliance judgments.",
+          "Accounting practice requires transparent reasoning, not only efficient processing."
+        ],
+        boundaryLine: "Automation supports workflow execution, while professionals retain decision authority."
+      }
+    ];
+
+    function aihubMaybePostHeight(sectionId) {
+      if (!AIHUB_ENABLE_POSTMESSAGE) return;
+      window.parent.postMessage({
+        type: "AIHUB_EMBED_HEIGHT",
+        sectionId,
+        height: document.body.scrollHeight,
+        version: "1.0"
+      }, "*");
+    }
+
+    function aihubCheckInter() {
+      let available = false;
+      if (document.fonts && typeof document.fonts.check === "function") {
+        available = document.fonts.check("16px Inter");
+      }
+      const probe = document.createElement("span");
+      probe.className = "aihub-sr";
+      probe.style.fontFamily = '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+      probe.textContent = "font-check";
+      document.body.appendChild(probe);
+      const family = (getComputedStyle(probe).fontFamily || "").toLowerCase();
+      probe.remove();
+      if (!available || family.indexOf("inter") === -1) {
+        document.documentElement.classList.add("aihub-no-inter");
+      }
+    }
+
+    function aihubInitSection() {
+      const shell = document.querySelector(".aihub-shell");
+      const buttons = Array.from(document.querySelectorAll("[data-aihub-item]"));
+      const entries = Array.from(document.querySelectorAll("[data-aihub-entry]"));
+      const selectedMeta = document.getElementById("aihub-selected-meta");
+      if (!shell || !buttons.length || !entries.length || !selectedMeta) return;
+
+      shell.classList.add("aihub-enhanced");
+
+      function setLineActive(id, active) {
+        const line = document.getElementById("aihub-link-" + id);
+        if (!line) return;
+        line.setAttribute("stroke", active ? "#6F56C6" : "rgba(111, 86, 198, 0.22)");
+        line.setAttribute("stroke-width", active ? "2.3" : "1.5");
+      }
+
+      function selectItem(id) {
+        const item = AIHUB_ITEMS.find(function (entry) { return entry.id === id; });
+        if (!item) return;
+
+        buttons.forEach(function (button) {
+          const active = button.getAttribute("data-aihub-item") === id;
+          button.classList.toggle("aihub-factor-active", active);
+          button.setAttribute("aria-pressed", String(active));
+        });
+
+        entries.forEach(function (entry) {
+          const active = entry.getAttribute("data-aihub-entry") === id;
+          entry.setAttribute("data-aihub-active", String(active));
+        });
+
+        ["datasets", "consistency", "anomaly", "interpretation"].forEach(function (key) {
+          setLineActive(key, key === id);
+        });
+
+        selectedMeta.textContent = "Selected: " + item.label;
+        aihubMaybePostHeight("section4");
+      }
+
+      buttons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          selectItem(button.getAttribute("data-aihub-item"));
+        });
+      });
+
+      selectItem("datasets");
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const ready = function () {
+        aihubCheckInter();
+        aihubInitSection();
+      };
+
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(ready).catch(ready);
+      } else {
+        ready();
+      }
+    });
+  </script>
+</body>
+</html>

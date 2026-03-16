@@ -1,0 +1,688 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI in Accounting Module</title>
+  <style>
+    :root {
+      --aiam-bg: #f7f9fc;
+      --aiam-card: #ffffff;
+      --aiam-surface: #f3f6fb;
+      --aiam-border: #dce4ef;
+      --aiam-primary: #1f3e66;
+      --aiam-primary-soft: #eaf0f8;
+      --aiam-text: #12263f;
+      --aiam-text-muted: #4d5f74;
+      --aiam-focus: #0c5bbf;
+      --aiam-shell-height: 580px;
+      --aiam-shell-height-mobile: 700px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: var(--aiam-bg);
+      color: var(--aiam-text);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .aiam-shell {
+      max-width: 960px;
+      height: var(--aiam-shell-height);
+      margin: 0 auto;
+      padding: 12px;
+      overflow: hidden;
+    }
+
+    .aiam-module {
+      width: 100%;
+      height: 100%;
+      border: 1px solid var(--aiam-border);
+      border-radius: 12px;
+      background: var(--aiam-card);
+      box-shadow: 0 2px 14px rgba(18, 38, 63, 0.06);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+    }
+
+    .aiam-nav {
+      min-height: 0;
+      padding: 16px;
+      background: var(--aiam-surface);
+      border-right: 1px solid var(--aiam-border);
+      overflow: auto;
+    }
+
+    .aiam-nav-group + .aiam-nav-group {
+      margin-top: 8px;
+    }
+
+    .aiam-section-btn {
+      width: 100%;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--aiam-text);
+      text-align: left;
+      padding: 12px;
+      font-size: 14px;
+      line-height: 1.35;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: background 180ms ease, color 180ms ease, border-color 180ms ease;
+    }
+
+    .aiam-section-btn:hover {
+      background: #e5ecf5;
+      border-color: #c9d6e7;
+    }
+
+    .aiam-section-btn:focus-visible,
+    .aiam-concept-btn:focus-visible {
+      outline: 3px solid rgba(12, 91, 191, 0.3);
+      outline-offset: 1px;
+      border-color: var(--aiam-focus);
+    }
+
+    .aiam-section-btn[aria-expanded="true"] {
+      background: #18324f;
+      color: #ffffff;
+      border-color: #18324f;
+    }
+
+    .aiam-caret {
+      width: 12px;
+      height: 12px;
+      transform: rotate(0deg);
+      transition: transform 180ms ease;
+      flex-shrink: 0;
+    }
+
+    .aiam-section-btn[aria-expanded="true"] .aiam-caret {
+      transform: rotate(90deg);
+    }
+
+    .aiam-concepts {
+      margin-top: 4px;
+      margin-left: 8px;
+      padding-left: 12px;
+      border-left: 1px solid #d5deeb;
+      display: grid;
+      gap: 4px;
+    }
+
+    .aiam-concept-btn {
+      border: 1px solid transparent;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--aiam-text-muted);
+      text-align: left;
+      padding: 10px 12px;
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 180ms ease, color 180ms ease, border-color 180ms ease;
+    }
+
+    .aiam-concept-btn:hover {
+      color: var(--aiam-text);
+      background: #e6edf6;
+      border-color: #cbd8ea;
+    }
+
+    .aiam-concept-btn[aria-pressed="true"] {
+      background: #dfe9f6;
+      color: #163b63;
+      border-color: #bccbe0;
+      font-weight: 650;
+    }
+
+    .aiam-reading {
+      padding: 14px 18px 12px 14px;
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: auto auto minmax(0, 1fr) auto;
+      gap: 8px;
+      justify-items: start;
+      align-content: center;
+    }
+
+    .aiam-reading > * {
+      max-width: 680px;
+      width: 100%;
+    }
+
+    .aiam-section-kicker {
+      margin: 0;
+      font-size: 11px;
+      line-height: 1.35;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: #5b6a7a;
+    }
+
+    .aiam-title {
+      margin: 0;
+      font-size: 27px;
+      line-height: 1.22;
+      letter-spacing: -0.01em;
+      font-weight: 620;
+      color: var(--aiam-text);
+    }
+
+    .aiam-divider {
+      width: 52px;
+      height: 2px;
+      background: var(--aiam-primary);
+      border-radius: 2px;
+      margin-top: 8px;
+    }
+
+    .aiam-paragraphs {
+      min-height: 0;
+      overflow: auto;
+      padding-right: 8px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .aiam-paragraphs p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.52;
+      color: var(--aiam-text-muted);
+    }
+
+    .aiam-points {
+      border: 1px solid #c9d6e7;
+      background: #f2f6fb;
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+
+    .aiam-points-title {
+      margin: 0 0 8px;
+      font-size: 11px;
+      line-height: 1.35;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--aiam-text-muted);
+    }
+
+    .aiam-points-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 5px;
+    }
+
+    .aiam-points-list li {
+      display: grid;
+      grid-template-columns: 20px 1fr;
+      align-items: start;
+      gap: 10px;
+      font-size: 14px;
+      line-height: 1.45;
+      color: var(--aiam-text);
+    }
+
+    .aiam-dot {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: #dbe6f5;
+      color: #1a3f6a;
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      margin-top: 1px;
+    }
+
+    .aiam-sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 920px) {
+      .aiam-shell {
+        height: var(--aiam-shell-height-mobile);
+        padding: 12px;
+      }
+
+      .aiam-module {
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(320px, 40%) minmax(0, 60%);
+      }
+
+      .aiam-nav {
+        border-right: 0;
+        border-bottom: 1px solid var(--aiam-border);
+      }
+
+      .aiam-reading {
+        padding: 14px 14px 12px 12px;
+      }
+
+      .aiam-title {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="aiam-shell">
+    <h1 class="aiam-sr-only">AI in Accounting learning module</h1>
+
+    <section class="aiam-module" aria-label="AI in Accounting learning module">
+      <nav class="aiam-nav" id="aiam-nav" aria-label="Module navigation"></nav>
+
+      <article class="aiam-reading" aria-live="polite">
+        <p class="aiam-section-kicker" id="aiam-section-kicker"></p>
+        <div>
+          <h2 class="aiam-title" id="aiam-title"></h2>
+          <div class="aiam-divider" aria-hidden="true"></div>
+        </div>
+        <div class="aiam-paragraphs" id="aiam-paragraphs"></div>
+        <section class="aiam-points" aria-label="Key points">
+          <h3 class="aiam-points-title">Key Points</h3>
+          <ul class="aiam-points-list" id="aiam-points"></ul>
+        </section>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    const moduleData = {
+      sections: [
+        {
+          id: "where-ai-appears",
+          title: "Where AI Appears",
+          concepts: [
+            {
+              id: "high-volume-review-contexts",
+              title: "High-Volume Transaction Review",
+              paragraphs: [
+                "In accounting practice, AI tends to appear where transaction volumes make comprehensive manual review unrealistic. This is common in organizations with high-frequency activity, multiple entities, or several source systems feeding the ledger.",
+                "In these settings, AI is used for population-level screening, anomaly detection, and exception queueing for follow-up. The output supports review coverage, but accountants still determine whether items are errors, misstatements, or immaterial differences within the control framework."
+              ],
+              keyPoints: [
+                "Used for population-level screening when manual review does not scale.",
+                "Common outputs: exceptions, unusual patterns, prioritized review queues.",
+                "Interpretation and sign-off remain professional responsibilities."
+              ]
+            },
+            {
+              id: "auditing-and-assurance-workflows",
+              title: "Audit and Assurance Workflows",
+              paragraphs: [
+                "Audit and assurance work requires evaluating large amounts of evidence under strict timing and documentation requirements. AI is often discussed in planning and risk assessment, where it can screen larger portions of transactions to inform what warrants further procedures.",
+                "Screening is not sufficient audit evidence by itself. Auditors must obtain sufficient appropriate audit evidence, investigate exceptions, and document how AI-supported analysis connects to conclusions under professional standards."
+              ],
+              keyPoints: [
+                "Supports risk assessment and selection of items for further procedures.",
+                "Does not replace requirements for sufficient appropriate audit evidence.",
+                "Documentation and conclusions remain auditor responsibilities under standards."
+              ]
+            },
+            {
+              id: "financial-reporting-and-reconciliation",
+              title: "Financial Reporting and Reconciliation",
+              paragraphs: [
+                "Financial reporting depends on recurring reconciliation and variance review across the general ledger, subledgers, and source systems throughout the close process. AI is typically discussed in matching routines and variance detection applied consistently across many accounts and periods.",
+                "Exceptions still require accounting analysis: Is the difference timing, data error, or a misstatement? Materiality, adjusting entries, and disclosure judgments remain human decisions governed by accounting standards and internal controls."
+              ],
+              keyPoints: [
+                "Applied to matching and variance analysis during close and reconciliations.",
+                "Produces exception lists; accountants determine root cause and materiality.",
+                "Adjustments and disclosures must be supported by standards and documentation."
+              ]
+            },
+            {
+              id: "tax-compliance-and-internal-controls",
+              title: "Tax, Compliance, and Internal Controls",
+              paragraphs: [
+                "Tax and compliance work often requires applying detailed rules across large transaction sets and multiple jurisdictions. AI is discussed as a way to run repeatable checks, identify exceptions, and route items for review under existing tax policies and filing requirements.",
+                "In internal control settings, automation must fit governance: control design, segregation of duties, and documented review. Management remains accountable for evaluating exceptions, approving resolutions, and maintaining an audit trail."
+              ],
+              keyPoints: [
+                "Runs repeatable rule-based checks and flags compliance exceptions.",
+                "Must operate within control design, review, and segregation-of-duties requirements.",
+                "Management remains accountable for control conclusions and audit trails."
+              ]
+            },
+            {
+              id: "classroom-scale-vs-practice-scale",
+              title: "Classroom Scale vs Practice Scale",
+              paragraphs: [
+                "Classroom cases are intentionally small and structured so students can focus on concepts. Practice settings involve continuous transactions, multiple entities, and data feeds that require reconciliation and documentation.",
+                "AI is discussed largely because it scales screening and monitoring across that complexity. It does not remove requirements for professional judgment, evidence, and defensible documentation."
+              ],
+              keyPoints: [
+                "Practice data is larger and less structured than typical course problems.",
+                "AI scales screening and monitoring across multiple accounts and systems.",
+                "Judgment and documentation remain required for defensible conclusions."
+              ]
+            }
+          ]
+        },
+        {
+          id: "what-ai-helps-with",
+          title: "What AI Helps With",
+          concepts: [
+            {
+              id: "routine-check-automation",
+              title: "Automating Routine Checks",
+              paragraphs: [
+                "AI is most appropriate for routine checks with clear rules, such as duplicate detection, threshold testing, and standardized record comparisons. Automating these steps can reduce manual effort across large datasets during the close or ongoing monitoring.",
+                "The output is still a starting point: exceptions must be investigated, explained, and documented. Automation changes workflow sequencing, not accountability for accounting decisions."
+              ],
+              keyPoints: [
+                "Best suited to repeatable, rules-based checks.",
+                "Generates exceptions that require investigation and documentation.",
+                "Accountability for conclusions remains with accountants."
+              ]
+            },
+            {
+              id: "consistency-across-records",
+              title: "Cross-System Consistency Checks",
+              paragraphs: [
+                "Accounting requires consistent application of policies across business units, systems, and reporting periods. AI is discussed as a way to apply the same screening logic across large numbers of accounts and data sources with less reviewer-to-reviewer variation.",
+                "Consistency in screening does not resolve judgment-intensive issues such as classification and valuation. Accountants still evaluate whether differences reflect timing, policy exceptions, or misstatements, and document the resolution."
+              ],
+              keyPoints: [
+                "Applies uniform screening logic across systems and periods.",
+                "Does not replace judgment on classification, valuation, or estimates.",
+                "Differences still require analysis and documented resolution."
+              ]
+            },
+            {
+              id: "broader-transaction-coverage",
+              title: "Expanded Transaction Coverage",
+              paragraphs: [
+                "AI is often associated with reviewing larger portions of transaction data, particularly in audit and assurance contexts. Wider screening can surface anomalies or control exceptions that might be missed when review is limited.",
+                "Coverage is not evidence on its own. Teams must evaluate data reliability, perform appropriate follow-up procedures, and support conclusions with standards-based reasoning and documentation."
+              ],
+              keyPoints: [
+                "Supports wider screening of transaction populations.",
+                "Anomaly signals require follow-up procedures and evidence evaluation.",
+                "Conclusions must be documented and aligned with assurance standards."
+              ]
+            },
+            {
+              id: "risk-focused-review-prioritization",
+              title: "Risk-Based Review Prioritization",
+              paragraphs: [
+                "When review capacity is limited, AI is discussed as a triage tool that ranks transactions, accounts, or controls for attention based on risk indicators. This can structure how review time is allocated during the close and in ongoing monitoring.",
+                "Prioritization is not a decision. Accountants must investigate high-risk items, consider materiality, and document why issues were resolved, adjusted, or escalated."
+              ],
+              keyPoints: [
+                "Ranks items for review using defined risk indicators.",
+                "Requires investigation, materiality assessment, and escalation when warranted.",
+                "Documentation of decisions remains required."
+              ]
+            },
+            {
+              id: "organizing-exceptions-for-follow-up",
+              title: "Exception Routing and Follow-Up",
+              paragraphs: [
+                "AI can organize exceptions into structured worklists, group similar issues, and route items to the appropriate reviewer. This reduces friction in high-volume follow-up and supports clear assignment of responsibility.",
+                "Organization does not resolve the exception. Accountants still confirm underlying transaction details, obtain explanations, record any needed adjustments, and preserve an audit trail."
+              ],
+              keyPoints: [
+                "Creates structured exception queues and routes items to reviewers.",
+                "Supports tracking of follow-up work and closure.",
+                "Resolution requires evidence, adjustments where needed, and audit trails."
+              ]
+            }
+          ]
+        },
+        {
+          id: "where-ai-falls-short",
+          title: "Where AI Falls Short",
+          concepts: [
+            {
+              id: "professional-judgment-cannot-be-replaced",
+              title: "Professional Judgment Cannot Be Replaced",
+              paragraphs: [
+                "Many accounting outcomes depend on judgment required by standards, including classification, valuation, estimates, and disclosures. AI can apply predefined rules and patterns, but it cannot determine the appropriate treatment in context.",
+                "Materiality, economic substance, and uncertainty require professional evaluation. Accountants must interpret standards, challenge assumptions, and document the rationale for conclusions."
+              ],
+              keyPoints: [
+                "Standards-based judgments are context-dependent.",
+                "Materiality and substance assessments remain professional responsibilities.",
+                "AI output must be interpreted and documented by accountants."
+              ]
+            },
+            {
+              id: "output-is-not-automatically-objective",
+              title: "Outputs Depend on Data and Assumptions",
+              paragraphs: [
+                "AI output reflects the data, coding decisions, and assumptions used to produce it. If source records are incomplete or inconsistently classified, automated analysis can scale those weaknesses.",
+                "Reliable use requires governance over data preparation, rule or model changes, and review of results. Accountants should perform plausibility checks and reconcile outputs to known accounting relationships and control expectations."
+              ],
+              keyPoints: [
+                "Input quality and assumptions limit output reliability.",
+                "Missing or inconsistent classifications can distort results at scale.",
+                "Governance and plausibility review are necessary before reliance."
+              ]
+            },
+            {
+              id: "standards-changes-require-human-interpretation",
+              title: "Standards Changes Require Human Interpretation",
+              paragraphs: [
+                "Accounting and regulatory guidance evolves through new standards, interpretations, and enforcement priorities. Automated logic does not update itself when requirements change.",
+                "Professionals must monitor guidance, update policies and review criteria, and revalidate AI-assisted procedures for compliance. This is especially important for estimates and disclosures, where application is often nuanced."
+              ],
+              keyPoints: [
+                "Guidance changes require active monitoring and policy updates.",
+                "Automated logic must be revised and revalidated when standards shift.",
+                "Estimates and disclosures often require nuanced interpretation."
+              ]
+            },
+            {
+              id: "ai-is-not-a-standalone-solution",
+              title: "AI Is Not a Standalone Accounting Solution",
+              paragraphs: [
+                "Accounting operates within governance: segregation of duties, approvals, documentation, and layered review. AI outputs that cannot be traced and reviewed are insufficient for accountable reporting.",
+                "Effective use requires integration into close, reconciliations, control testing, audit support, and compliance workflows. The tool is one input to a system of evidence, review, and responsibility."
+              ],
+              keyPoints: [
+                "Governance and internal controls define acceptable use.",
+                "Outputs must be traceable and reviewable to support decisions.",
+                "Integration with close and assurance workflows is essential."
+              ]
+            }
+          ]
+        },
+        {
+          id: "what-to-keep-in-mind",
+          title: "What to Keep in Mind",
+          concepts: [
+            {
+              id: "accuracy-and-consistency-expectations",
+              title: "Accuracy, Consistency, and Control Risk",
+              paragraphs: [
+                "In accounting, the baseline test for any tool is whether it supports accurate and consistent records. These qualities underpin reliable reporting, auditability, and compliance.",
+                "Because small errors can cascade across accounts and disclosures, AI use should be evaluated through a control-risk lens. The key question is whether the process reduces error risk while maintaining consistent application of accounting policy."
+              ],
+              keyPoints: [
+                "Accuracy and consistency are baseline requirements.",
+                "Assess impact on control risk and error propagation.",
+                "Policy application must remain consistent with standards."
+              ]
+            },
+            {
+              id: "documentation-and-clear-reasoning",
+              title: "Documentation and Clear Reasoning",
+              paragraphs: [
+                "Accounting conclusions must be explainable: reviewers need to see what was done, what evidence supports it, and why treatment aligns with standards and policy. Documentation is part of the deliverable.",
+                "AI outputs are usable only when they fit this audit-trail framework. Teams should be able to show inputs, criteria applied, exceptions raised, and how each exception was resolved."
+              ],
+              keyPoints: [
+                "Decisions require evidence, rationale, and traceable documentation.",
+                "Inputs and criteria for AI outputs must be transparent.",
+                "Exception handling must be recorded in an audit trail."
+              ]
+            },
+            {
+              id: "oversight-and-accountability-stay-human",
+              title: "Oversight and Accountability Stay Human",
+              paragraphs: [
+                "Responsibility for accounting outcomes stays with professionals who prepare, review, and approve the work. AI can inform analysis, but it does not assume professional accountability.",
+                "Oversight requires challenging unexpected results, validating exceptions, and escalating issues when evidence is insufficient. Sign-off remains a human governance function."
+              ],
+              keyPoints: [
+                "Accountability for reporting decisions remains with people, not tools.",
+                "Oversight requires validation, challenge, and escalation.",
+                "Sign-off and governance responsibilities cannot be delegated."
+              ]
+            },
+            {
+              id: "ai-as-support-within-existing-systems",
+              title: "AI as Support Within Existing Systems",
+              paragraphs: [
+                "AI should be treated as a component within established accounting systems: close, reconciliations, control testing, and audit preparation. Its value depends on alignment with responsibilities, controls, and documentation standards.",
+                "A disciplined approach defines fit-for-purpose use cases, clear review procedures, and governance over changes. Students should evaluate AI as part of standards-based practice, not as a substitute for it."
+              ],
+              keyPoints: [
+                "Embed AI within existing workflows, controls, and audit trails.",
+                "Define review procedures and governance for changes to logic.",
+                "Evaluate outputs against standards and professional judgment."
+              ]
+            }
+          ]
+        }
+      ]
+    };
+
+    const state = {
+      activeSectionId: moduleData.sections[0].id,
+      activeConceptId: moduleData.sections[0].concepts[0].id
+    };
+
+    const navRoot = document.getElementById("aiam-nav");
+    const sectionKickerEl = document.getElementById("aiam-section-kicker");
+    const titleEl = document.getElementById("aiam-title");
+    const paragraphsEl = document.getElementById("aiam-paragraphs");
+    const pointsEl = document.getElementById("aiam-points");
+
+    function getSection(sectionId) {
+      return moduleData.sections.find((section) => section.id === sectionId) || moduleData.sections[0];
+    }
+
+    function getConcept(section, conceptId) {
+      return section.concepts.find((concept) => concept.id === conceptId) || section.concepts[0];
+    }
+
+    function setActiveSection(sectionId) {
+      if (state.activeSectionId === sectionId) return;
+      const section = getSection(sectionId);
+      state.activeSectionId = section.id;
+      state.activeConceptId = section.concepts[0].id;
+      render();
+    }
+
+    function setActiveConcept(sectionId, conceptId) {
+      state.activeSectionId = sectionId;
+      state.activeConceptId = conceptId;
+      render();
+    }
+
+    function renderNavigation() {
+      navRoot.innerHTML = "";
+
+      moduleData.sections.forEach((section) => {
+        const isExpanded = section.id === state.activeSectionId;
+        const group = document.createElement("div");
+        group.className = "aiam-nav-group";
+
+        const sectionButton = document.createElement("button");
+        sectionButton.type = "button";
+        sectionButton.className = "aiam-section-btn";
+        sectionButton.setAttribute("aria-expanded", String(isExpanded));
+        sectionButton.setAttribute("aria-controls", `aiam-concepts-${section.id}`);
+        sectionButton.innerHTML = `<span class="aiam-caret" aria-hidden="true">&#9656;</span><span>${section.title}</span>`;
+        sectionButton.addEventListener("click", () => setActiveSection(section.id));
+
+        group.appendChild(sectionButton);
+
+        if (isExpanded) {
+          const conceptsWrap = document.createElement("div");
+          conceptsWrap.className = "aiam-concepts";
+          conceptsWrap.id = `aiam-concepts-${section.id}`;
+
+          section.concepts.forEach((concept) => {
+            const conceptButton = document.createElement("button");
+            const isActive = concept.id === state.activeConceptId;
+            conceptButton.type = "button";
+            conceptButton.className = "aiam-concept-btn";
+            conceptButton.textContent = concept.title;
+            conceptButton.setAttribute("aria-pressed", String(isActive));
+            conceptButton.addEventListener("click", () => {
+              setActiveConcept(section.id, concept.id);
+            });
+            conceptsWrap.appendChild(conceptButton);
+          });
+
+          group.appendChild(conceptsWrap);
+        }
+
+        navRoot.appendChild(group);
+      });
+    }
+
+    function renderReadingPanel() {
+      const section = getSection(state.activeSectionId);
+      const concept = getConcept(section, state.activeConceptId);
+
+      sectionKickerEl.textContent = section.title;
+      titleEl.textContent = concept.title;
+
+      paragraphsEl.innerHTML = "";
+      concept.paragraphs.forEach((paragraphText) => {
+        const p = document.createElement("p");
+        p.textContent = paragraphText;
+        paragraphsEl.appendChild(p);
+      });
+
+      pointsEl.innerHTML = "";
+      concept.keyPoints.forEach((point, index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `<span class="aiam-dot" aria-hidden="true">${index + 1}</span><span>${point}</span>`;
+        pointsEl.appendChild(li);
+      });
+    }
+
+    function render() {
+      renderNavigation();
+      renderReadingPanel();
+    }
+
+    render();
+  </script>
+</body>
+</html>

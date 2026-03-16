@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Where You'll See AI - Context and Takeaways</title>
+    <style>
+      :root {
+        --smeal-navy: #0a2e63;
+        --smeal-blue: #0d4b95;
+        --smeal-accent: #1e6fd9;
+        --surface: #ffffff;
+        --surface-soft: #f8fbff;
+        --border: #dbe7f7;
+        --text: #163f79;
+      }
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        background: transparent;
+        font-family: Inter, "Segoe UI", Arial, sans-serif;
+        color: var(--text);
+      }
+      .panel {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 22px;
+      }
+      h3 {
+        margin: 0;
+        color: var(--smeal-navy);
+        font-size: 1.45rem;
+        line-height: 1.2;
+      }
+      .sub {
+        margin: 10px 0 0;
+        font-size: 0.97rem;
+        line-height: 1.55;
+      }
+      .context-grid {
+        margin-top: 14px;
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .context-item {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--surface-soft);
+        padding: 12px;
+      }
+      .label {
+        margin: 0;
+        color: var(--smeal-blue);
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+      }
+      .text {
+        margin: 8px 0 0;
+        font-size: 0.93rem;
+        line-height: 1.54;
+      }
+      .takeaways {
+        margin-top: 14px;
+        border-top: 1px solid var(--border);
+        padding-top: 12px;
+      }
+      .takeaways h4 {
+        margin: 0 0 8px;
+        color: var(--smeal-navy);
+        font-size: 1rem;
+      }
+      .takeaways ol {
+        margin: 0;
+        padding-left: 20px;
+      }
+      .takeaways li {
+        margin: 0 0 7px;
+        font-size: 0.92rem;
+        line-height: 1.5;
+      }
+      .takeaways li:last-child { margin-bottom: 0; }
+      .reveal-trigger {
+        margin-top: 12px;
+        border: 1px solid #bfd3f0;
+        background: #f4f9ff;
+        color: var(--smeal-navy);
+        border-radius: 8px;
+        padding: 7px 11px;
+        font-size: 0.86rem;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .reveal-trigger:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(30, 111, 217, 0.22);
+      }
+      .reveal-panel {
+        margin-top: 10px;
+        border-top: 1px solid var(--border);
+        padding-top: 10px;
+      }
+      .reveal-panel[hidden] { display: none; }
+      .reveal-panel p {
+        margin: 0;
+        font-size: 0.9rem;
+        line-height: 1.52;
+      }
+      @media (max-width: 700px) {
+        .context-grid { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Wix suggested heights: desktop 380px, mobile 500px -->
+    <section class="panel" aria-labelledby="context-title">
+      <h3 id="context-title">Context for Students</h3>
+      <p class="sub">Where AI appears is shaped by the gap between classroom problem sets and firm-scale accounting workflows.</p>
+
+      <div class="context-grid">
+        <article class="context-item">
+          <p class="label">In Class</p>
+          <p class="text">Students often work with smaller, cleaner datasets in auditing, reporting, tax, and controls coursework.</p>
+        </article>
+        <article class="context-item">
+          <p class="label">In Practice</p>
+          <p class="text">Organizations review continuous streams across many accounts and entities, so AI supports scale, consistency, and prioritization.</p>
+        </article>
+      </div>
+
+      <div class="takeaways">
+        <h4>Three Practical Takeaways</h4>
+        <ol>
+          <li>Expect AI to appear where transaction volume is highest.</li>
+          <li>Use model output as a review signal, not as a final conclusion.</li>
+          <li>Documentation and explainability matter as much as speed.</li>
+        </ol>
+      </div>
+
+      <button class="reveal-trigger" type="button" aria-expanded="false" aria-controls="panel-context" data-toggle>
+        Read more
+      </button>
+      <section id="panel-context" class="reveal-panel" hidden data-panel>
+        <p>
+          This section is intentionally descriptive, not instructional. The goal is to help students recognize where AI fits in accounting workflows while keeping professional judgment and accountability central.
+        </p>
+      </section>
+    </section>
+
+    <script>
+      (function () {
+        const trigger = document.querySelector("[data-toggle]");
+        const panel = document.querySelector("[data-panel]");
+        if (!trigger || !panel) return;
+        trigger.addEventListener("click", function () {
+          const expanded = trigger.getAttribute("aria-expanded") === "true";
+          const next = !expanded;
+          trigger.setAttribute("aria-expanded", String(next));
+          panel.hidden = !next;
+        });
+      })();
+    </script>
+  </body>
+</html>
