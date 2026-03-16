@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Student AI Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{background:#fff;color:#0B1F3B;font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+    .page{max-width:960px;margin:0 auto;padding:48px 24px 56px}
+
+    /* ---- Hero ---- */
+    .hero{text-align:center;margin-bottom:20px}
+    .hero-title{font-size:clamp(30px,4.5vw,46px);font-weight:800;line-height:1.1;letter-spacing:-.025em;color:#0B1F3B;margin-bottom:16px}
+    .hero-sub{font-size:17px;line-height:1.7;color:#4B5D73;max-width:640px;margin:0 auto}
+
+    /* ---- Status badge ---- */
+    .status{text-align:center;margin-bottom:48px}
+    .status-badge{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:#4B5D73;background:#F0F4FA;border:1px solid #E3E8F0;border-radius:8px;padding:6px 14px}
+    .status-dot{width:8px;height:8px;border-radius:50%;background:#FEBC2E}
+
+    /* ---- Big centered mockup ---- */
+    .mockup-section{margin-bottom:56px}
+    .mockup-frame{max-width:760px;margin:0 auto;border-radius:12px;overflow:hidden;box-shadow:0 16px 48px rgba(1,69,143,.12),0 4px 12px rgba(0,0,0,.06);border:1px solid #DDE3ED;background:#fff}
+    .mockup-bar{height:36px;background:#F0F1F4;display:flex;align-items:center;padding:0 14px;gap:7px;border-bottom:1px solid #DDE3ED}
+    .mockup-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
+    .mockup-dot.r{background:#FF5F57}
+    .mockup-dot.y{background:#FEBC2E}
+    .mockup-dot.g{background:#28C840}
+    .mockup-addr{margin-left:12px;height:20px;border-radius:5px;background:#E4E6EB;width:200px}
+    .mockup-viewport{width:100%;aspect-ratio:16/10;overflow:hidden}
+    .mockup-viewport img{width:100%;height:100%;object-fit:cover;object-position:center 12%;display:block}
+
+    /* ---- Section styles ---- */
+    .section{margin-bottom:48px}
+    .section-title{font-size:20px;font-weight:700;color:#0B1F3B;margin-bottom:16px}
+    .section p{font-size:15px;line-height:1.7;color:#4B5D73;margin-bottom:12px}
+    .section p:last-child{margin-bottom:0}
+
+    /* ---- How foundational content works ---- */
+    .process-box{background:#F7F9FC;border:1px solid #E3E8F0;border-radius:12px;padding:24px 24px 20px;margin-top:20px}
+    .process-box-title{font-size:14px;font-weight:700;color:#0B1F3B;margin-bottom:14px}
+    .process-steps{list-style:none;display:flex;flex-direction:column;gap:10px}
+    .process-steps li{display:flex;align-items:baseline;gap:10px;font-size:13.5px;line-height:1.55;color:#4B5D73}
+    .process-steps li strong{color:#0B1F3B;font-weight:600}
+    .p-num{width:20px;height:20px;border-radius:50%;background:rgba(1,69,143,.08);color:#01458F;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+    /* ---- Sections grid ---- */
+    .hub-sections{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+    .hub-sec{padding:16px;border:1px solid #E3E8F0;border-radius:10px;background:#fff}
+    .hub-sec-name{font-size:13.5px;font-weight:600;color:#0B1F3B;margin-bottom:4px}
+    .hub-sec-desc{font-size:12.5px;line-height:1.5;color:#4B5D73}
+
+    /* ---- CTA ---- */
+    .cta{text-align:center;margin-top:48px}
+    .cta-btn{display:inline-block;padding:14px 32px;border-radius:10px;background:#01458F;color:#fff;font-size:15px;font-weight:600;text-decoration:none;transition:background 180ms ease,transform 120ms ease,box-shadow 180ms ease;box-shadow:0 2px 8px rgba(1,69,143,.18)}
+    .cta-btn:hover{background:#0C5BBF;transform:translateY(-1px);box-shadow:0 4px 16px rgba(1,69,143,.25)}
+    .cta-note{font-size:12px;color:#4B5D73;margin-top:10px}
+
+    /* ---- Responsive ---- */
+    @media(max-width:640px){
+      .page{padding:28px 16px 36px}
+      .hub-sections{grid-template-columns:1fr}
+      .process-box{padding:18px 16px}
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <section class="hero">
+      <h1 class="hero-title">The Student AI Hub</h1>
+      <p class="hero-sub">Applied AI took on the creation of a resource where Smeal students can learn about AI in the context of their academics and future careers.</p>
+    </section>
+
+    <div class="status">
+      <span class="status-badge"><span class="status-dot"></span> Work in progress</span>
+    </div>
+
+    <section class="mockup-section">
+      <div class="mockup-frame">
+        <div class="mockup-bar">
+          <span class="mockup-dot r"></span>
+          <span class="mockup-dot y"></span>
+          <span class="mockup-dot g"></span>
+          <span class="mockup-addr"></span>
+        </div>
+        <div class="mockup-viewport">
+          <img src="https://raw.githubusercontent.com/andysalvo/applied-ai-club/main/screenshots/dan-ives-day/home.png" alt="Student AI Hub home page" loading="lazy" />
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">What it is</h2>
+      <p>The Student AI Hub is a website that covers AI basics, how AI shows up in school and professional work, how businesses use it, what tools are available, and the rules, risks, and ethics that come with it. It also includes a section called AI by Smeal Major, which describes how AI is discussed in the context of each of Smeal's 10 undergraduate majors.</p>
+      <p>The current version is a demo. We are still developing it and working toward something ready for wider use. The content and structure will continue to change as we learn more about what students actually need from a resource like this.</p>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">How the foundational content was built</h2>
+      <p>The Hub's core sections -- AI Basics, Using AI for School and Work, How Businesses Use AI, AI Tools, and Rules, Risks, and Ethics -- were generated using retrieval-augmented generation (RAG). That means the AI that drafted the content could only use information from a set of pre-approved sources, not the open internet.</p>
+      <p>We started with 36 sources that were selected and reviewed by hand. These included academic publications, government frameworks like the NIST AI Risk Management Framework, professional association guidance, and reporting from organizations like the OECD and World Economic Forum. Each source was fetched, stored as a snapshot, and split into smaller chunks. When content was drafted, the system retrieved relevant chunks using keyword-based search (BM25) and passed them to the AI as context. Every paragraph in the output includes a citation back to the chunk it drew from.</p>
+      <p>The AI could not add sources, browse the web, or generate information beyond what was in the chunks. All drafts were reviewed by people before being published, and the foundational sections are now frozen.</p>
+
+      <div class="process-box">
+        <p class="process-box-title">The pipeline</p>
+        <ol class="process-steps">
+          <li><span class="p-num">1</span><span><strong>Curate</strong> -- 36 sources selected and reviewed by hand</span></li>
+          <li><span class="p-num">2</span><span><strong>Fetch and snapshot</strong> -- each source downloaded and stored as an immutable record</span></li>
+          <li><span class="p-num">3</span><span><strong>Chunk</strong> -- full texts split into readable segments with stable IDs</span></li>
+          <li><span class="p-num">4</span><span><strong>Retrieve</strong> -- BM25 keyword search returns the most relevant chunks per topic</span></li>
+          <li><span class="p-num">5</span><span><strong>Draft</strong> -- AI generates text using only retrieved chunks, with inline citations</span></li>
+          <li><span class="p-num">6</span><span><strong>Review and lock</strong> -- human audit for accuracy, tone, and source balance before publishing</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">What's on the Hub</h2>
+      <div class="hub-sections">
+        <div class="hub-sec">
+          <p class="hub-sec-name">AI Basics</p>
+          <p class="hub-sec-desc">What AI is, how it works at a high level, and common terminology.</p>
+        </div>
+        <div class="hub-sec">
+          <p class="hub-sec-name">AI for School and Work</p>
+          <p class="hub-sec-desc">How AI shows up in academic settings and early career contexts.</p>
+        </div>
+        <div class="hub-sec">
+          <p class="hub-sec-name">How Businesses Use AI</p>
+          <p class="hub-sec-desc">Where AI appears across business functions and industries.</p>
+        </div>
+        <div class="hub-sec">
+          <p class="hub-sec-name">AI Tools</p>
+          <p class="hub-sec-desc">A curated set of tools worth knowing about.</p>
+        </div>
+        <div class="hub-sec">
+          <p class="hub-sec-name">Rules, Risks, and Ethics</p>
+          <p class="hub-sec-desc">Governance, fairness, accountability, and responsible use.</p>
+        </div>
+        <div class="hub-sec">
+          <p class="hub-sec-name">AI by Smeal Major</p>
+          <p class="hub-sec-desc">How AI is discussed in each of Smeal's 10 undergraduate majors.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <a class="cta-btn" href="https://ajs10845.wixsite.com/student-ai-hub-1" target="_blank" rel="noopener">Visit the Student AI Hub</a>
+      <p class="cta-note">Current version is a working demo.</p>
+    </section>
+
+  </div>
+</body>
+</html>
